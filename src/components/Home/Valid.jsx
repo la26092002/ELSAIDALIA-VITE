@@ -8,7 +8,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { URL } from '../../constants/Constants';
 
-const Validate = () => {
+const Valid = () => {
   const [number, setNumber] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
@@ -223,4 +223,4 @@ const Validate = () => {
   );
 };
 
-export default Validate;
+export default Valid;
