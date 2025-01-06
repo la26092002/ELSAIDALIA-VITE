@@ -22,7 +22,8 @@ import Contact from "./components/Home/Contact";
 import Seconnect from "./components/Home/Seconnect";
 import Register from "./components/Home/Register";
 import Forgetpassword from "./components/Home/Forgetpassword";
-import Validate from "./components/Home/validate";
+import Validate from "./components/Home/Validate";
+
 
 
 export const App = () => {
