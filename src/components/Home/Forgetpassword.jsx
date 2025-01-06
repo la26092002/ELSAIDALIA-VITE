@@ -68,9 +68,9 @@ const Forgetpassword = () => {
 
       const data = await response.json();
       console.log('Login successful:', data);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("categorie", data.category);
-      localStorage.setItem("actor", data.id);
+      //localStorage.setItem("token", data.token);
+      //localStorage.setItem("categorie", data.category);
+      //localStorage.setItem("actor", data.id);
 
 
 
@@ -79,12 +79,12 @@ const Forgetpassword = () => {
       // <MenuItem value="Pharmacien">Pharmacien</MenuItem>
       //<MenuItem value="Fournisseur">Fournisseur</MenuItem>
       // Handle successful login (e.g., save token, navigate to another page)
-      if (data.category == "Fournisseur") {
-        navigate('/fournisseur');
-      } else {
-        navigate('/Pharmacien');
+      // if (data.category == "Fournisseur") {
+      //   navigate('/fournisseur');
+      // } else {
+      //   navigate('/Pharmacien');
 
-      }
+     // }
       // Update this route as needed
     } catch (err) {
       console.error('Login error:', err);
