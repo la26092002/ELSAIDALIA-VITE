@@ -8,9 +8,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { URL } from '../../constants/Constants';
 
-const Forgetpassword = () => {
-  const [email, setEmail] = useState('');
+const Validate = () => {
+  const [number, setNumber] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [spinner, setSpinner] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
@@ -45,33 +47,47 @@ const Forgetpassword = () => {
     </Box>
   );
 
-  const handleLogin = async () => {
+  const handleValidate = async () => {
     setSpinner(true);
     setError('');
+    setSuccess('');
+
+    const token = localStorage.getItem('email'); // Retrieve the token from localStorage
+
+    if (!token) {
+      setSpinner(false);
+      setError('Token is missing. Please try the process again.');
+      return;
+    }
+
     try {
-      const response = await fetch(`${URL}/api/auth/email`, {
+      const response = await fetch(`${URL}/api/auth/validate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: token,
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          number: parseInt(number),
+          newPassword,
+        }),
       });
 
       setSpinner(false);
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.errors?.[0]?.msg || 'Failed to process request');
+        throw new Error(errorData.message || 'Validation failed');
       }
 
       const data = await response.json();
-      // Save the token to localStorage
-      localStorage.setItem('email', data.token);
-
-      // Navigate to the validate route
-      navigate('/validate');
+      setSuccess('Validation and password reset successful!');
+      setTimeout(() => {
+        navigate('/seconnect'); // Navigate to the login page or any other page
+      }, 2000);
     } catch (err) {
-      console.error('Login error:', err);
-      setError(err.message || 'Failed to process request.');
+      console.error('Validation error:', err);
+      setError(err.message || 'Validation failed.');
     }
   };
 
@@ -149,25 +165,40 @@ const Forgetpassword = () => {
           }}
         >
           <Typography variant="h4" sx={{ mb: 4, color: '#00796b', fontWeight: 'bold' }}>
-            Mot de passe oublié
+            Validate and Reset Password
           </Typography>
           {error && (
             <Typography sx={{ color: 'red', mb: 2 }}>
               {error}
             </Typography>
           )}
+          {success && (
+            <Typography sx={{ color: 'green', mb: 2 }}>
+              {success}
+            </Typography>
+          )}
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Email"
+                label="Enter Code"
                 variant="outlined"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
                 sx={{ fontSize: '1.2rem' }}
               />
             </Grid>
-
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="New Password"
+                variant="outlined"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                sx={{ fontSize: '1.2rem' }}
+              />
+            </Grid>
             <Grid item xs={12}>
               <Button
                 fullWidth
@@ -180,24 +211,10 @@ const Forgetpassword = () => {
                   fontWeight: 'bold',
                   boxShadow: '0px 4px 10px rgba(0, 121, 107, 0.4)',
                 }}
-                onClick={handleLogin}
+                onClick={handleValidate}
               >
-                Cliquez et vérifiez votre email.
+                Validate and Reset Password
               </Button>
-            </Grid>
-
-            <Grid item xs={12} sx={{ mt: 2 }}>
-              <Typography variant="body2">
-                Vous n'avez pas de compte ?{' '}
-                <Link
-                  component={RouterLink}
-                  to="/register"
-                  underline="hover"
-                  sx={{ color: '#00796b', fontWeight: 'bold' }}
-                >
-                  Inscrivez-vous
-                </Link>
-              </Typography>
             </Grid>
           </Grid>
         </Box>
@@ -206,4 +223,4 @@ const Forgetpassword = () => {
   );
 };
 
-export default Forgetpassword;
+export default Validate;

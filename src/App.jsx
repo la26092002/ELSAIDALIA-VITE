@@ -22,6 +22,7 @@ import Contact from "./components/Home/Contact";
 import Seconnect from "./components/Home/Seconnect";
 import Register from "./components/Home/Register";
 import Forgetpassword from "./components/Home/Forgetpassword";
+import Validate from "./components/Home/validate";
 
 
 export const App = () => {
@@ -88,6 +89,8 @@ export const appRouter = createBrowserRouter(
     { path: "/contact", element: <Contact /> },
     { path: "/seconnect", element: <Seconnect /> },
     { path: "/forgetpassword", element: <Forgetpassword /> },
+    { path: "/validate", element: <Validate /> },
+    
     
     { path: "/register", element: <Register /> },
     { path: "/loginAdmin", element: <Login /> },
