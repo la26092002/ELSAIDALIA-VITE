@@ -13,6 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import FournisseurTable from './FournisseurTable';
+import Fourniseur from './fourniseur/Fourniseur';
 
 const FournisurSearch = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -110,43 +111,8 @@ const FournisurSearch = () => {
 
       <Box component="main">
         <Toolbar />
-        <Box sx={{ padding: '20px' }}>
-          {/* Search Bar */}
-          <Box
-            sx={{
-              display: 'flex',
-              gap: '20px',
-              mb: 4,
-              justifyContent: 'center',
-            }}
-          >
-            <TextField
-              label="Nom"
-              variant="outlined"
-              value={nom}
-              onChange={(e) => setNom(e.target.value)}
-              sx={{ width: '300px' }}
-            />
-            <TextField
-              label="Wilaya"
-              variant="outlined"
-              value={wilaya}
-              onChange={(e) => setWilaya(e.target.value)}
-              sx={{ width: '300px' }}
-            />
-          </Box>
-
-          {/* FournisseurTable Component */}
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              {
-                (wilaya.length != 0 ||  nom.length != 0) && (
-                  <FournisseurTable willaya={wilaya} nom={nom} />
-                )
-              }
-              
-            </Grid>
-          </Grid>
+        <Box >
+        <Fourniseur/>
         </Box>
 
         {/* Footer */}
