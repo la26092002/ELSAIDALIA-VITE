@@ -159,15 +159,7 @@ const Principle = () => {
         Découvrez une sélection de produits pharmaceutiques de haute qualité pour répondre
         aux besoins de vos patients.
       </Typography>
-      <Button
-        variant="outlined"
-        sx={{ mt: 3 ,bgcolor:'#00796b',padding: '12px 22px',color:'#fff',font:'bold','&:hover': {
-          bgcolor: '#005f56', // Background color on hover
-        },}}
-        onClick={() => navigate('/pharmacien')}
-      >
-        Pharmacien?
-      </Button>
+      
     </Box>
   </Grid>
 
@@ -182,15 +174,7 @@ const Principle = () => {
         Connectez-vous avec des pharmaciens à la recherche de partenariats fiables pour
         l'approvisionnement de leurs pharmacies.
       </Typography>
-      <Button
-        variant="outlined"
-        sx={{ mt: 3 ,bgcolor:'#00796b',padding: '12px 22px',color:'#fff',font:'bold','&:hover': {
-          bgcolor: '#005f56', // Background color on hover
-        },}}
-        onClick={() => navigate('/fournisseur')}
-      >
-        Fournisseur?
-      </Button>
+     
     </Box>
   </Grid>
 </Grid>

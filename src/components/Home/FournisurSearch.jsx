@@ -12,13 +12,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
+import FournisseurTable from './FournisseurTable';
 
 const FournisurSearch = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [nom, setNom] = useState('');
   const [wilaya, setWilaya] = useState('');
-  const [results, setResults] = useState([]);
-  
+
   const drawerWidth = 240;
   const navigate = useNavigate();
 
@@ -32,15 +32,6 @@ const FournisurSearch = () => {
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
-  };
-
-  const handleSearch = () => {
-    // Simulated search results based on input
-    setResults([
-      { title: 'Résultat 1', description: 'Description du premier résultat.' },
-      { title: 'Résultat 2', description: 'Description du deuxième résultat.' },
-      { title: 'Résultat 3', description: 'Description du troisième résultat.' },
-    ]);
   };
 
   const drawer = (
@@ -62,7 +53,7 @@ const FournisurSearch = () => {
   );
 
   return (
-    <div sx={{ bgcolor: '#f5f5f5' }}>
+    <Box sx={{ bgcolor: '#f5f5f5' }}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
@@ -143,61 +134,36 @@ const FournisurSearch = () => {
               onChange={(e) => setWilaya(e.target.value)}
               sx={{ width: '300px' }}
             />
-            <Button
-              variant="contained"
-              onClick={handleSearch}
-              sx={{ backgroundColor: '#00796b', color: '#fff', height: '55px' }}
-            >
-              Rechercher
-            </Button>
           </Box>
 
-          {/* Search Results */}
-          {results.length > 0 && (
-            <Grid container spacing={4}>
-              {results.map((result, index) => (
-                <Grid item xs={12} md={4} key={index}>
-                  <Box
-                    sx={{
-                      backgroundColor: '#fff',
-                      padding: '20px',
-                      borderRadius: '10px',
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                      transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                      '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
-                      },
-                    }}
-                  >
-                    <Typography variant="h5" sx={{ color: '#00796b', fontWeight: 'bold', mb: '10px' }}>
-                      {result.title}
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: '#333', mb: '15px' }}>
-                      {result.description}
-                    </Typography>
-                    <Button
-                      variant="contained"
-                      sx={{ backgroundColor: '#00796b', color: '#fff' }}
-                      onClick={() => navigate(`/details/${index}`)}
-                    >
-                      Voir plus
-                    </Button>
-                  </Box>
-                </Grid>
-              ))}
+          {/* FournisseurTable Component */}
+          <Grid container spacing={4}>
+            <Grid item xs={12}>
+              {
+                (wilaya.length != 0 ||  nom.length != 0) && (
+                  <FournisseurTable willaya={wilaya} nom={nom} />
+                )
+              }
+              
             </Grid>
-          )}
+          </Grid>
         </Box>
 
         {/* Footer */}
         <footer>
-          <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
+          <Box 
+          sx={{
+            textAlign: 'center',
+            py: 2,
+            mt: 4,
+            marginTop: wilaya.length !== 0 || nom.length !== 0 ? '90px' : '360px',
+          }}
+          >
             <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
           </Box>
         </footer>
       </Box>
-    </div>
+    </Box>
   );
 };
 

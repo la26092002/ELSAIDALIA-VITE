@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, Grid, TextField, MenuItem, FormControl, InputLabel, Select } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  Grid,
+  TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,12 +22,17 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
+import { URL } from '../../constants/Constants';
+import MapComponent from './MapComponent';
 
 const Contact = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [nom, setNom] = useState('');
-  const [wilaya, setWilaya] = useState('');
-  const [results, setResults] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
   const drawerWidth = 240;
   const navigate = useNavigate();
 
@@ -33,14 +48,42 @@ const Contact = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const handleSearch = () => {
-    // Simulated search results (replace with actual logic)
-    setResults([
-      { title: 'Résultat 1', description: 'Description de la pharmacie ou du fournisseur 1.' },
-      { title: 'Résultat 2', description: 'Description de la pharmacie ou du fournisseur 2.' },
-      // Add more results here as needed
-    ]);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch(`${URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Success:', data);
+        alert('Message envoyé avec succès!');
+        setFormData({ name: '', email: '', message: '' }); // Reset form fields
+      } else {
+        const errorData = await response.json();
+        console.error('Error:', errorData);
+        alert('Échec de l\'envoi du message. Veuillez réessayer.');
+      }
+    } catch (error) {
+      console.error('Network Error:', error);
+      alert('Une erreur réseau s\'est produite. Veuillez vérifier votre connexion.');
+    }
+  };
+  
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -51,7 +94,10 @@ const Contact = () => {
       <List>
         {navItems.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton onClick={() => navigate(item.link)} sx={{ textAlign: 'center' }}>
+            <ListItemButton
+              onClick={() => navigate(item.link)}
+              sx={{ textAlign: 'center' }}
+            >
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
@@ -119,8 +165,6 @@ const Contact = () => {
       <Box component="main">
         <Toolbar />
         <main>
-        
-
           {/* Contact Form */}
           <Box
             sx={{
@@ -134,25 +178,55 @@ const Contact = () => {
             <Typography variant="h4" sx={{ color: '#00796b', fontWeight: 'bold', mb: 2 }}>
               Contactez-Nous
             </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Nom" variant="outlined" />
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Nom"
+                    name="name"
+                    variant="outlined"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Email"
+                    name="email"
+                    type='email'
+                    variant="outlined"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Message"
+                    name="message"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ backgroundColor: '#00796b', color: '#fff' }}
+                  >
+                    Envoyer
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField fullWidth label="Email" variant="outlined" />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField fullWidth label="Message" variant="outlined" multiline rows={4} />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  sx={{ backgroundColor: '#00796b', color: '#fff' }}
-                >
-                  Envoyer
-                </Button>
-              </Grid>
-            </Grid>
+            </form>
           </Box>
 
           {/* GPS Section */}
@@ -160,10 +234,7 @@ const Contact = () => {
             <Typography variant="h6" sx={{ color: '#00796b', mb: 2 }}>
               Nos Coordonnées GPS
             </Typography>
-            <Typography variant="body1" sx={{ color: '#333', mb: 2 }}>
-              Latitude: 36.737232, Longitude: 3.086472
-            </Typography>
-            {/* You can add a Google Maps component here if needed */}
+            <MapComponent/>
           </Box>
         </main>
       </Box>

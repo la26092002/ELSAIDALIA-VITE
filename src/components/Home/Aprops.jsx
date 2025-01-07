@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Grid } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -50,9 +50,9 @@ const Aprops = () => {
 
   return (
     <div sx={{ bgcolor: '#f5f5f5' }}>
-        <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{bgcolor:'#00796b'}}>
+        <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -68,11 +68,13 @@ const Aprops = () => {
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
               {navItems.map((item) => (
-                <Button key={item.text} sx={{ color: '#fff',textAlign: 'center',
-                padding: '14px 20px',
-                fontSize: '17px',
-                fontWeight: 'bold',
-                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5) '}} onClick={() => navigate(item.link)}>
+                <Button key={item.text} sx={{
+                  color: '#fff', textAlign: 'center',
+                  padding: '14px 20px',
+                  fontSize: '17px',
+                  fontWeight: 'bold',
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5) '
+                }} onClick={() => navigate(item.link)}>
                   {item.text}
                 </Button>
               ))}
@@ -101,120 +103,121 @@ const Aprops = () => {
         <Toolbar />
         (
         <main>
-            <Box
-                sx={{
-                    backgroundColor: '#fff',
-                    padding: '20px',
-                    borderRadius: '10px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                    marginBottom: '20px',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                    '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
-                    },
-                }}
-            >
-                <Typography variant="h1" sx={{ color: '#00796b', fontSize: '2rem', fontWeight: 'bold', mb: '15px' }}>
-                    Qui Sommes-Nous?
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
-                    ELSAIDALIYA est une plateforme de liaison entre pharmaciens et fournisseurs, votre destination numérique
-                    pour simplifier et optimiser les échanges commerciaux dans le domaine pharmaceutique.
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
-                    Notre site web est conçu pour offrir une expérience fluide et efficace, où les fournisseurs peuvent
-                    présenter leurs produits et où les pharmaciens peuvent passer des commandes en toute simplicité.
-                </Typography>
-            </Box>
+          <Box
+            sx={{
+              backgroundColor: '#fff',
+              padding: '20px',
+              borderRadius: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              marginBottom: '20px',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+              },
+            }}
+          >
+            <Typography variant="h1" sx={{ color: '#00796b', fontSize: '2rem', fontWeight: 'bold', mb: '15px' }}>
+              Qui Sommes-Nous?
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
+              ELSAIDALIYA est une plateforme de liaison entre pharmaciens et fournisseurs, votre destination numérique
+              pour simplifier et optimiser les échanges commerciaux dans le domaine pharmaceutique.
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
+              Notre site web est conçu pour offrir une expérience fluide et efficace, où les fournisseurs peuvent
+              présenter leurs produits et où les pharmaciens peuvent passer des commandes en toute simplicité.
+            </Typography>
+          </Box>
 
-            <Box
-                sx={{
-                    backgroundColor: '#fff',
-                    padding: '20px',
-                    borderRadius: '10px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                    marginBottom: '20px',
-                    '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
-                    },
-                }}
-            >
-                <Typography variant="h2" sx={{ color: '#00796b', fontSize: '1.5rem', fontWeight: 'bold', mb: '15px' }}>
-                    Explorez, Comparez, Commandez
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
-                    Notre plateforme offre une gamme d’outils pratiques pour parcourir les catalogues des fournisseurs,
-                    comparer les produits, vérifier les disponibilités en temps réel et passer des commandes en quelques clics.
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
-                    Vous bénéficiez d’une visibilité totale sur les tarifs, les promotions en cours et les délais de livraison,
-                    ce qui vous permet de prendre des décisions éclairées et de gérer efficacement vos stocks.
-                </Typography>
-            </Box>
+          <Box
+            sx={{
+              backgroundColor: '#fff',
+              padding: '20px',
+              borderRadius: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              marginBottom: '20px',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+              },
+            }}
+          >
+            <Typography variant="h2" sx={{ color: '#00796b', fontSize: '1.5rem', fontWeight: 'bold', mb: '15px' }}>
+              Explorez, Comparez, Commandez
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
+              Notre plateforme offre une gamme d’outils pratiques pour parcourir les catalogues des fournisseurs,
+              comparer les produits, vérifier les disponibilités en temps réel et passer des commandes en quelques clics.
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
+              Vous bénéficiez d’une visibilité totale sur les tarifs, les promotions en cours et les délais de livraison,
+              ce qui vous permet de prendre des décisions éclairées et de gérer efficacement vos stocks.
+            </Typography>
+          </Box>
 
-            <Box
-                sx={{
-                    backgroundColor: '#fff',
-                    padding: '20px',
-                    borderRadius: '10px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                    marginBottom: '20px',
-                    '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
-                    },
-                }}
-            >
-                <Typography variant="h2" sx={{ color: '#00796b', fontSize: '1.5rem', fontWeight: 'bold', mb: '15px' }}>
-                    Créez Votre Compte et Mettez en Avant Vos Produits
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
-                    En tant que fournisseur, vous avez la possibilité de créer un compte sur notre plateforme et de
-                    télécharger les informations détaillées sur vos produits, y compris les descriptions, les prix, les
-                    conditions commerciales et les disponibilités.
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
-                    Vous pouvez également mettre en avant vos promotions spéciales et vos nouveautés pour attirer l’attention
-                    des pharmacies partenaires.
-                </Typography>
-            </Box>
+          <Box
+            sx={{
+              backgroundColor: '#fff',
+              padding: '20px',
+              borderRadius: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              marginBottom: '20px',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+              },
+            }}
+          >
+            <Typography variant="h2" sx={{ color: '#00796b', fontSize: '1.5rem', fontWeight: 'bold', mb: '15px' }}>
+              Créez Votre Compte et Mettez en Avant Vos Produits
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
+              En tant que fournisseur, vous avez la possibilité de créer un compte sur notre plateforme et de
+              télécharger les informations détaillées sur vos produits, y compris les descriptions, les prix, les
+              conditions commerciales et les disponibilités.
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
+              Vous pouvez également mettre en avant vos promotions spéciales et vos nouveautés pour attirer l’attention
+              des pharmacies partenaires.
+            </Typography>
+          </Box>
 
-            <Box
-                sx={{
-                    backgroundColor: '#fff',
-                    padding: '20px',
-                    borderRadius: '10px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+          <Box
+            sx={{
+              backgroundColor: '#fff',
+              padding: '20px',
+              borderRadius: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+              },
+            }}
+          >
+            <Typography variant="h1" sx={{ color: '#00796b', fontSize: '2rem', fontWeight: 'bold', mb: '15px' }}>
+              Rejoignez-nous dès aujourd'hui!
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
+              Découvrez comment nous pouvons transformer votre expérience d'approvisionnement pharmaceutique pour le mieux!
+            </Typography>
+            <Box sx={{ textAlign: 'center', mt: '20px' }}>
+              <Link to="/register" style={{ textDecoration: 'none' }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: '#00796b',
+                    color: '#fff',
                     '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+                      backgroundColor: '#005b4f',
                     },
-                }}
-            >
-                <Typography variant="h1" sx={{ color: '#00796b', fontSize: '2rem', fontWeight: 'bold', mb: '15px' }}>
-                    Rejoignez-nous dès aujourd'hui!
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
-                    Découvrez comment nous pouvons transformer votre expérience d'approvisionnement pharmaceutique pour le mieux!
-                </Typography>
-                <Box sx={{ textAlign: 'center', mt: '20px' }}>
-                    <Button
-                        variant="contained"
-                        href="s'enregistrer-et-connecter.html"
-                        sx={{
-                            backgroundColor: '#00796b',
-                            color: '#fff',
-                            '&:hover': {
-                                backgroundColor: '#005b4f',
-                            },
-                        }}
-                    >
-                        Inscrivez-vous maintenant
-                    </Button>
-                </Box>
+                  }}
+                >
+                  Inscrivez-vous maintenant
+                </Button>
+              </Link>
             </Box>
+          </Box>
         </main>
 
         {/* Footer */}
