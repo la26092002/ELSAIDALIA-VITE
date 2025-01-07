@@ -47,20 +47,24 @@ export default function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    //console.log(data)
-    //email/Phone/cpassword/password
     const email = data.get("email");
     const Phone = data.get("Phone");
     const password = data.get("password");
     const cpassword = data.get("cpassword");
-    if (email.length >=1 && Phone.length >=1 && password.length >=1 && cpassword.length >=1 && password === cpassword) {
+
+    if (
+      email.length >= 1 &&
+      Phone.length >= 1 &&
+      password.length >= 1 &&
+      cpassword.length >= 1 &&
+      password === cpassword
+    ) {
       localStorage.setItem("token", "Hello World");
       navigate("/");
     } else {
       setErr("Please Enter Correct Informations");
     }
   };
-
 
   const Login = (event) => {
     event.preventDefault();
@@ -88,7 +92,6 @@ export default function Register() {
             <Box
               component="form"
               onSubmit={handleSubmit}
-              validate="true"
               sx={{ mt: 1 }}
             >
               <TextField
@@ -101,25 +104,23 @@ export default function Register() {
                 autoComplete="email"
                 autoFocus
               />
-                <TextField
+              <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="Phone"
                 label="Phone Number"
                 name="Phone"
-                autoComplete="Phone"
-                autoFocus
+                autoComplete="phone"
               />
-
-              
-              <FormControl sx={{ mt: 2, width: '100%' }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
+                <InputLabel htmlFor="password">Password</InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   autoComplete="current-password"
+                  required
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -135,12 +136,13 @@ export default function Register() {
                   label="Password"
                 />
               </FormControl>
-              <FormControl sx={{ mt: 2, width: '100%' }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+              <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
+                <InputLabel htmlFor="cpassword">Confirm Password</InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? 'text' : 'password'}
+                  id="cpassword"
+                  type={showPassword ? "text" : "password"}
                   name="cpassword"
+                  required
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -153,25 +155,22 @@ export default function Register() {
                       </IconButton>
                     </InputAdornment>
                   }
-                  label="cPassword"
-                  autoComplete="Phone"
-                autoFocus
+                  label="Confirm Password"
                 />
               </FormControl>
-              
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Sign Up
               </Button>
               <a href="#" onClick={Login} role="button" tabIndex="0">
                 Login
               </a>
             </Box>
-            {err === "" ? "" : (<CollapseItem err={err} />)}
+            {err && <CollapseItem err={err} />}
           </Box>
           <Copyright sx={{ mt: 4, mb: 2 }} />
         </Container>

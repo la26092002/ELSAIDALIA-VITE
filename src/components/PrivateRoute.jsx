@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function PrivateRoute({ children }) {
   const navigate = useNavigate();
-  const getEmail = localStorage.getItem("emailData");
-  const getPassword = localStorage.getItem("passwordData");
+  const token = localStorage.getItem("tokenFournisseur");
 
   useEffect(() => {
-    if (!getEmail && !getPassword) {
-      navigate("/login");
+    if (!token) {
+      navigate("/seconnect");
     }
-  }, [getEmail, getPassword, navigate]);
+  }, [token, navigate]);
 
   return children;
 }

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
-import { Box, Typography, Grid, TextField, Toolbar } from "@mui/material";
+import { Box, Typography, Grid, TextField, Toolbar, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import FournisseurTable from "./FournisseurTable";
+import { wilayas } from "../../../constants/Constants";
 
 const FournisseurAdmin = () => {
   const [nom, setNom] = useState("");
@@ -39,13 +40,20 @@ const FournisseurAdmin = () => {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              label="Wilaya"
-              variant="outlined"
-              fullWidth
-              value={wilaya}
-              onChange={(e) => setWilaya(e.target.value)}
-            />
+          <FormControl sx={{ width: '300px' }}>
+                    <InputLabel>Wilaya</InputLabel>
+                    <Select
+                      value={wilaya}
+                      onChange={(e) => setWilaya(e.target.value)}
+                      label="Wilaya"
+                    >
+                      {wilayas.map((wilay, index) => (
+                        <MenuItem key={index} value={wilay}>
+                          {wilay}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
           </Grid>
           <Grid item xs={12}>
             <FournisseurTable willaya={memoizedWilaya} nom={memoizedNom} />

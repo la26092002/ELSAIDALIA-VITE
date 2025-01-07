@@ -7,7 +7,7 @@ import { Box, MenuItem, ListItemIcon } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import BlockIcon from '@mui/icons-material/Block'; // For suspension
+import BlockIcon from '@mui/icons-material/Block';
 import { URL } from '../../../constants/Constants';
 
 export default function FournisseurTable({ willaya, nom }) {
@@ -34,39 +34,23 @@ export default function FournisseurTable({ willaya, nom }) {
         };
 
         fetchData();
-    }, [pagination.pageIndex, pagination.pageSize, willaya, nom,change]);
-
-    const handleDelete = async (id) => {
-        try {
-            await fetch(`${URL}/api/auth/${id}`, { method: 'DELETE' });
-            setData((prev) => prev.filter((item) => item.id !== id));
-            console.log(`Fournisseur with ID ${id} deleted.`);
-        } catch (error) {
-            console.error('Error deleting fournisseur:', error);
-        }
-    };
-
-    const handleModify = (id) => {
-        console.log(`Modify action for ID: ${id}`);
-        // Add your modify logic here, such as opening a dialog or navigating to a form.
-    };
+    }, [pagination.pageIndex, pagination.pageSize, willaya, nom, change]);
 
     const handleSuspend = async (data) => {
         try {
             await fetch(`${URL}/api/auth/update/${data._id}`, {
                 method: 'PUT',
                 headers: {
-                  'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  // Replace these with your actual data fields
-                  status: !data.status,
+                    status: !data.status,
                 }),
-              });
-              setChange(!change)
-            console.log(data._id,!data.status)
+            });
+            setChange(!change);
+            console.log(`Status updated for ID: ${data._id}, New Status: ${!data.status}`);
         } catch (error) {
-            console.error('Error suspending fournisseur:', error);
+            console.error('Error updating status:', error);
         }
     };
 
@@ -96,7 +80,12 @@ export default function FournisseurTable({ willaya, nom }) {
             {
                 header: 'Status',
                 accessorKey: 'status',
-                Cell: ({ cell }) =>  cell.getValue() == false ? (<a style={{color:'green'}}>Actif</a>): (<a  style={{color:'red'}}>Inactif</a>),
+                Cell: ({ cell }) =>
+                    cell.getValue() === false ? (
+                        <span style={{ color: 'red' }}>Inactif</span>
+                    ) : (
+                        <span style={{ color: 'green' }}>Actif</span>
+                    ),
             },
             {
                 header: 'Date',
@@ -135,7 +124,7 @@ export default function FournisseurTable({ willaya, nom }) {
                 <ListItemIcon>
                     <BlockIcon />
                 </ListItemIcon>
-                Suspend
+                {row.original.status ? 'Inactiver' : 'Activer'}
             </MenuItem>,
         ],
     });

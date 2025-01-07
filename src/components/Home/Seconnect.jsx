@@ -69,9 +69,7 @@ const Seconnect = () => {
 
       const data = await response.json();
       console.log('Login successful:', data);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("categorie", data.category);
-      localStorage.setItem("actor", data.id);
+     
 
 
 
@@ -81,6 +79,9 @@ const Seconnect = () => {
       //<MenuItem value="Fournisseur">Fournisseur</MenuItem>
       // Handle successful login (e.g., save token, navigate to another page)
       if (data.category == "Fournisseur") {
+        localStorage.setItem("tokenFournisseur", data.token);
+        localStorage.setItem("categorieFournisseur", data.category);
+        localStorage.setItem("actorFournisseur", data.id);
         navigate('/fournisseur');
       } else {
         navigate('/Pharmacien');
@@ -187,6 +188,7 @@ const Seconnect = () => {
           value={numberPhone}
           onChange={(e) => setNumberPhone(e.target.value)}
           sx={{ fontSize: '1.2rem' }}
+          required='required'
         />
       </Grid>
       <Grid item xs={12}>
@@ -198,6 +200,7 @@ const Seconnect = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           sx={{ fontSize: '1.2rem' }}
+          required='required'
         />
       </Grid>
       <Grid item xs={12}>
