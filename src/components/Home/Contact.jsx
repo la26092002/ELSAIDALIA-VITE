@@ -235,8 +235,15 @@ const Contact = () => {
               Nos Coordonnées GPS
             </Typography>
             <MapComponent/>
+            
           </Box>
         </main>
+
+         <footer>
+                  <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
+                    <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+                  </Box>
+                </footer>
       </Box>
     </div>
   );
