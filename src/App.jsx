@@ -27,7 +27,7 @@ import PharmacyAdmin from "./components/Admin/Pharmacy/PharmacyAdmin";
 
 
 
-
+//
 export const App = () => {
   return <Outlet />;
 };
