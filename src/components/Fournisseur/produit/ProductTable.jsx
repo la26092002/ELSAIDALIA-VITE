@@ -22,7 +22,7 @@ export default function ProductTable({refresh}) {
         const fetchData = async () => {
             
             try {
-                const id = await localStorage.getItem('actor');
+                const id = await localStorage.getItem('actorFournisseur');
                 const response = await fetch(
                     URL+`/api/product?page=${pagination.pageIndex}&size=${pagination.pageSize}&date=true&id=${id}`
                 );

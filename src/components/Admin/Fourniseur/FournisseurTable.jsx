@@ -61,6 +61,29 @@ export default function FournisseurTable({ willaya, nom }) {
                 accessorKey: 'nom',
                 Cell: ({ row }) => `${row.original.nom} ${row.original.prenom}`,
             },
+            {
+                header: 'Status',
+                accessorKey: 'status',
+                 Cell: ({ cell }) => {
+                                    const isActive = cell.getValue(); // Get the boolean value
+                                    return (
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                padding: '4px',
+                                                backgroundColor: isActive ? 'green' : 'red',
+                                                color: 'white',
+                                                borderRadius: '4px',
+                                                fontWeight: 'bold',
+                                            }}
+                                        >
+                                            {isActive ? 'Active' : 'Inactive'}
+                                        </Box>
+                                    );
+                                },
+            },
             { header: 'Telephone', accessorKey: 'telephone' },
             { header: 'Email', accessorKey: 'email' },
             { header: 'Willaya', accessorKey: 'willaya' },
@@ -77,16 +100,7 @@ export default function FournisseurTable({ willaya, nom }) {
                     </a>
                 ),
             },
-            {
-                header: 'Status',
-                accessorKey: 'status',
-                Cell: ({ cell }) =>
-                    cell.getValue() === false ? (
-                        <span style={{ color: 'red' }}>Inactif</span>
-                    ) : (
-                        <span style={{ color: 'green' }}>Actif</span>
-                    ),
-            },
+           
             {
                 header: 'Date',
                 accessorKey: 'date',

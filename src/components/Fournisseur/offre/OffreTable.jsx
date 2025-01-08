@@ -21,7 +21,7 @@ export default function OffreTable({refresh}) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const id = await localStorage.getItem('actor');
+                const id = await localStorage.getItem('actorFournisseur');
                 console.log(id)
                 const response = await fetch(
                     URL+`/api/offer?page=${pagination.pageIndex}&size=${pagination.pageSize}&date=true&id=${id}`

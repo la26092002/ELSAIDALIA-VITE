@@ -20,7 +20,7 @@ export default function ProductCotaTable({ refresh }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const id = await localStorage.getItem('actor');
+                const id = await localStorage.getItem('actorFournisseur');
                 const response = await fetch(
                     URL + `/api/productCota?page=${pagination.pageIndex}&size=${pagination.pageSize}&date=true&id=${id}`
                 );
