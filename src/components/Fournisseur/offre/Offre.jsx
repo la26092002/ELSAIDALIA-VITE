@@ -19,7 +19,7 @@ const Offre = () => {
 
   // Fetch actor from localStorage on component mount
   useEffect(() => {
-    const storedActor = localStorage.getItem('actor');
+    const storedActor = localStorage.getItem('actorFournisseur');
     if (storedActor) {
       setActor(storedActor);
     }

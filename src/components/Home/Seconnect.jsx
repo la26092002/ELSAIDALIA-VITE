@@ -84,6 +84,9 @@ const Seconnect = () => {
         localStorage.setItem("actorFournisseur", data.id);
         navigate('/fournisseur');
       } else {
+        localStorage.setItem("tokenPharmacien", data.token);
+        localStorage.setItem("categoriePharmacien", data.category);
+        localStorage.setItem("actorPharmacien", data.id);
         navigate('/Pharmacien');
 
       }
