@@ -52,7 +52,7 @@ const ProduitCotaAdmin = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: "#f5f5f5", minHeight: "100vh" }}>
+    <Box sx={{ minHeight: "100vh" }}>
       <Toolbar />
       <Box
         component="main"

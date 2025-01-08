@@ -36,7 +36,7 @@ const AdminApp = () => {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: "100vh",
+    minHeight: "10vh",
     padding: { xs: "10px", sm: "20px" },
     width: "100%",
   }}

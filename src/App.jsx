@@ -23,6 +23,7 @@ import Seconnect from "./components/Home/Seconnect";
 import Register from "./components/Home/Register";
 import Forgetpassword from "./components/Home/Forgetpassword";
 import Valid from "./components/Home/Valid";
+import PharmacyAdmin from "./components/Admin/Pharmacy/PharmacyAdmin";
 
 
 
@@ -39,6 +40,8 @@ export const appRouter = createBrowserRouter(
       errorElement: <Error />,
       children: [
         { path: "fourniseur", element: <FournisseurAdmin /> },
+        { path: "pharmacien", element: <PharmacyAdmin /> },
+        
         { path: "produit", element: <ProduitAdmin /> },
         { path: "produitCota", element: <ProduitCotaAdmin /> },
       ],

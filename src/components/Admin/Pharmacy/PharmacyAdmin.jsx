@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Box, Typography, Grid, TextField, Toolbar, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import FournisseurTable from "./FournisseurTable";
-import { wilayas } from "../../../constants/Constants";
 
-const FournisseurAdmin = () => {
+import { wilayas } from "../../../constants/Constants";
+import PharmacyTable from "./PharmacyTable";
+
+const PharmacyAdmin = () => {
   const [nom, setNom] = useState("");
   const [wilaya, setWilaya] = useState("");
 
@@ -11,7 +12,7 @@ const FournisseurAdmin = () => {
   const memoizedWilaya = useMemo(() => wilaya, [wilaya]);
 
   return (
-    <Box sx={{  minHeight: "10vh",}}>
+    <Box sx={{  minHeight: "100vh" }}>
       <Toolbar />
       <Box
         component="main"
@@ -27,7 +28,7 @@ const FournisseurAdmin = () => {
           variant="h4"
           sx={{ fontWeight: "bold", mb: 4, fontSize: { xs: "1.5rem", sm: "2rem" } }}
         >
-          Recherchez votre fournisseur
+          Recherchez votre pharmacien
         </Typography>
         <Grid container spacing={2} sx={{ justifyContent: "center", width: "100%", maxWidth: "800px" }}>
           <Grid item xs={12} sm={6}>
@@ -56,7 +57,7 @@ const FournisseurAdmin = () => {
                   </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <FournisseurTable willaya={memoizedWilaya} nom={memoizedNom} />
+            <PharmacyTable willaya={memoizedWilaya} nom={memoizedNom} />
           </Grid>
         </Grid>
       </Box>
@@ -69,4 +70,4 @@ const FournisseurAdmin = () => {
   );
 };
 
-export default FournisseurAdmin;
+export default PharmacyAdmin;

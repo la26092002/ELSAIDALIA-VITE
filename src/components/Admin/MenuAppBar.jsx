@@ -48,6 +48,7 @@ export default function MenuAppBar() {
         {[
           { text: "Home", path: "/admin", icon: <HomeIcon /> },
           { text: "Fourniseur", path: "/admin/fourniseur", icon: <PeopleIcon /> },
+          { text: "Pharmacien", path: "/admin/pharmacien", icon: <PeopleIcon /> },
           { text: "Produit", path: "/admin/produit", icon: <Inventory2Icon /> },
           { text: "Produit Cota", path: "/admin/ProduitCota", icon: <Inventory2Icon /> },
         ].map((item) => (
