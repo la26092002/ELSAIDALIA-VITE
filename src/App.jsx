@@ -24,6 +24,7 @@ import Register from "./components/Home/Register";
 import Forgetpassword from "./components/Home/Forgetpassword";
 import Valid from "./components/Home/Valid";
 import PharmacyAdmin from "./components/Admin/Pharmacy/PharmacyAdmin";
+import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 
 
 
@@ -38,12 +39,28 @@ export const appRouter = createBrowserRouter(
       path: "/admin",
       element: <AdminApp />,
       errorElement: <Error />,
-      children: [
-        { path: "fourniseur", element: <FournisseurAdmin /> },
-        { path: "pharmacien", element: <PharmacyAdmin /> },
+      children: [ (
+        <PrivateRouteAdmin>
+          <Produit />
+        </PrivateRouteAdmin>
+      ),
+        { path: "fourniseur", element: (
+          <PrivateRouteAdmin><FournisseurAdmin />
+          </PrivateRouteAdmin>
+        ) },
+        { path: "pharmacien", element: (
+        <PrivateRouteAdmin><PharmacyAdmin />
+        </PrivateRouteAdmin>
+      ) },
         
-        { path: "produit", element: <ProduitAdmin /> },
-        { path: "produitCota", element: <ProduitCotaAdmin /> },
+        { path: "produit", element: (
+          <PrivateRouteAdmin><ProduitAdmin />
+          </PrivateRouteAdmin>
+        ) },
+        { path: "produitCota", element: (
+        <PrivateRouteAdmin><ProduitCotaAdmin />
+        </PrivateRouteAdmin>
+      ) },
       ],
     },
     
