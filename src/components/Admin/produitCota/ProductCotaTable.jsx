@@ -1,15 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import {
-    MaterialReactTable,
-} from 'material-react-table';
-import { MenuItem, ListItemIcon } from '@mui/material';
+import { MaterialReactTable } from 'material-react-table';
+import { Box, MenuItem, ListItemIcon } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { URL } from '../../../constants/Constants';
 
 export default function ProductCotaTable() {
-    const [dataa, setData] = useState([]);
+    const [data, setData] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const [pagination, setPagination] = useState({
         pageIndex: 0,
@@ -17,17 +13,16 @@ export default function ProductCotaTable() {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [refresh, setRefresh] = useState(false); // Added to trigger data refresh
 
-    const [change, setChange] = useState(false);
-  
-
+    // Fetch data from the API
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             setError(null);
             try {
                 const response = await fetch(
-                    URL+`/api/productCota?page=${pagination.pageIndex}&size=${pagination.pageSize}`
+                    `${URL}/api/productCota?page=${pagination.pageIndex}&size=${pagination.pageSize}`
                 );
                 const result = await response.json();
                 console.log('API Response:', result);
@@ -42,14 +37,13 @@ export default function ProductCotaTable() {
         };
 
         fetchData();
-    }, [pagination,change]);
+    }, [pagination, refresh]);
 
     const columns = useMemo(
         () => [
             {
                 header: 'ID',
                 accessorKey: '_id',
-
                 enableEditing: false,
             },
             {
@@ -57,13 +51,36 @@ export default function ProductCotaTable() {
                 accessorKey: 'name',
             },
             {
+                header: 'Delete',
+                accessorKey: 'delete',
+                enableEditing: false,
+                Cell: ({ cell }) => {
+                    const isDeleted = cell.getValue(); // Get the boolean value
+                    return (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '4px',
+                                backgroundColor: isDeleted ? 'red' : 'green',
+                                color: 'white',
+                                borderRadius: '4px',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {isDeleted ? 'Deleted' : 'Active'}
+                        </Box>
+                    );
+                },
+            },
+            {
                 header: 'PDF',
                 accessorKey: 'dataPdf',
-
                 enableEditing: false,
                 Cell: ({ cell }) => (
                     <a
-                        href={URL+`/api/productCota/download?file=${cell.getValue()}`}
+                        href={`${URL}/api/productCota/download?file=${cell.getValue()}`}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -85,7 +102,6 @@ export default function ProductCotaTable() {
             {
                 header: 'Date',
                 accessorKey: 'date',
-
                 enableEditing: false,
                 Cell: ({ cell }) =>
                     new Date(cell.getValue()).toLocaleString(),
@@ -95,32 +111,44 @@ export default function ProductCotaTable() {
     );
 
     const handleEditingRowSave = async ({ table, values }) => {
-        
-        // Validate data and save it to the API
-        console.log('Saving edited row values:', values);
-
-        await fetch(`${URL}/api/productCota/${values._id}`, {
-                        method: 'PUT',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                          // Replace these with your actual data fields
-                          name: values.name,
-                        }),
-                      });
-                      setChange(!change)
-        //values.name
-        // Example of saving data
-        // fetch(URL + '/api/save', { method: 'POST', body: JSON.stringify(values) });
-
-        // Exit editing mode
-        table.setEditingRow(null);
+        try {
+            await fetch(`${URL}/api/productCota/${values._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: values.name,
+                }),
+            });
+            setRefresh(!refresh); // Trigger data refresh
+            table.setEditingRow(null); // Exit editing mode
+        } catch (error) {
+            console.error('Error saving row:', error);
+        }
     };
 
     const handleEditingRowCancel = () => {
-        // Clear any validation errors
         console.log('Edit canceled');
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`${URL}/api/productCota/toggle-delete/${id}`, {
+                method: 'PUT',
+            });
+
+            if (!response.ok) {
+                console.error('Failed to toggle delete:', await response.json());
+                return;
+            }
+
+            const result = await response.json();
+            console.log('Delete toggled:', result);
+            setRefresh(!refresh); // Trigger data refresh
+        } catch (error) {
+            console.error('Error toggling delete:', error);
+        }
     };
 
     return (
@@ -129,23 +157,20 @@ export default function ProductCotaTable() {
             {error && <div>{error}</div>}
             <MaterialReactTable
                 columns={columns}
-                data={dataa}
-                manualFiltering={true}
-                manualSorting={true}
-                manualPagination={true}
-
-                enableEditing= {true}
-                editDisplayMode= 'modal'
+                data={data}
+                manualFiltering
+                manualSorting
+                manualPagination
+                enableEditing
+                editDisplayMode="modal"
                 onEditingRowSave={handleEditingRowSave}
                 onEditingRowCancel={handleEditingRowCancel}
-                
-
-                enableColumnFilterModes={true}
-                enableColumnOrdering={true}
-                enableGrouping={true}
-                enableColumnPinning={true}
-                enableFacetedValues={true}
-                enableRowActions={true}
+                enableColumnFilterModes
+                enableColumnOrdering
+                enableGrouping
+                enableColumnPinning
+                enableFacetedValues
+                enableRowActions
                 rowCount={rowCount}
                 onPaginationChange={({ pageIndex, pageSize }) =>
                     setPagination({ pageIndex, pageSize })
@@ -156,13 +181,13 @@ export default function ProductCotaTable() {
                         key="delete"
                         onClick={() => {
                             closeMenu();
-                            console.log('Delete:', row.original);
+                            handleDelete(row.original._id);
                         }}
                     >
                         <ListItemIcon>
                             <DeleteIcon />
                         </ListItemIcon>
-                        Delete
+                        {row.original.delete ? 'Restore' : 'Delete'}
                     </MenuItem>,
                 ]}
             />

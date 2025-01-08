@@ -16,6 +16,8 @@ export default function ProductTable() {
         pageIndex: 0,
         pageSize: 5,
     });
+    
+    const [refresh, setRefresh] = useState(false);
 
     // Fetch data from the API
     useEffect(() => {
@@ -25,6 +27,7 @@ export default function ProductTable() {
                     `${URL}/api/product?page=${pagination.pageIndex}&size=${pagination.pageSize}`
                 );
                 const result = await response.json();
+                console.log(result.data)
                 setData(result?.data || []);
                 setRowCount(result?.totalItems || 0);
             } catch (error) {
@@ -33,21 +36,45 @@ export default function ProductTable() {
         };
 
         fetchData();
-    }, [pagination.pageIndex, pagination.pageSize]);
+    }, [pagination.pageIndex, pagination.pageSize,refresh]);
 
     const columns = useMemo(
         () => [
-            
             {
                 header: 'ID',
                 accessorKey: '_id',
-
                 enableEditing: false,
             },
             {
                 header: 'Name',
                 accessorKey: 'name',
             },
+            {
+                header: 'Delete',
+                accessorKey: 'delete',
+                enableEditing: false,
+                Cell: ({ cell }) => {
+                    const isDeleted = cell.getValue(); // Get the boolean value
+                    return (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '4px',
+                                backgroundColor: isDeleted ? 'red' : 'green',
+                                color: 'white',
+                                borderRadius: '4px',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {isDeleted ? 'Deleted' : 'Active'}
+                        </Box>
+                    );
+                },
+            },
+            
+            
             {
                 header: 'PDF',
                 accessorKey: 'dataPdf',
@@ -89,51 +116,38 @@ export default function ProductTable() {
         []
     );
 
-        const handleEditingRowSave = async ({ table, values }) => {
-            
-            // Validate data and save it to the API
-            console.log('Saving edited row values:', values);
-    
+    const handleEditingRowSave = async ({ table, values }) => {
+        try {
             await fetch(`${URL}/api/product/${values._id}`, {
-                            method: 'PUT',
-                            headers: {
-                              'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                              // Replace these with your actual data fields
-                              name: values.name,
-                            }),
-                          });
-                         // setChange(!change)
-            //values.name
-            // Example of saving data
-            // fetch(URL + '/api/save', { method: 'POST', body: JSON.stringify(values) });
-    
-            // Exit editing mode
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: values.name,
+                }),
+            });
             table.setEditingRow(null);
-        };
-    
-        const handleEditingRowCancel = () => {
-            // Clear any validation errors
-            console.log('Edit canceled');
-        };
+            setPagination((prev) => ({ ...prev, pageIndex: prev.pageIndex })); // Refresh data
+        } catch (error) {
+            console.error('Error saving row:', error);
+        }
+    };
+
+    const handleEditingRowCancel = () => {
+        console.log('Edit canceled');
+    };
 
     const table = useMaterialReactTable({
         columns,
         data,
-
         manualFiltering: true,
         manualSorting: true,
         manualPagination: true,
-
-
         enableEditing: true,
-                editDisplayMode: 'modal',
-                onEditingRowSave: handleEditingRowSave, // Correct
-onEditingRowCancel: handleEditingRowCancel, // Correct
-
-
-
+        editDisplayMode: 'modal',
+        onEditingRowSave: handleEditingRowSave,
+        onEditingRowCancel: handleEditingRowCancel,
         enableColumnFilterModes: true,
         enableColumnOrdering: true,
         enableGrouping: true,
@@ -144,19 +158,33 @@ onEditingRowCancel: handleEditingRowCancel, // Correct
         rowCount,
         state: { pagination },
         renderRowActionMenuItems: ({ row, closeMenu }) => [
-            
-            
             <MenuItem
                 key="delete"
-                onClick={() => {
+                onClick={async () => {
                     closeMenu();
-                    console.log('Delete:', row.original);
+                    try {
+                        const response = await fetch(`${URL}/api/product/toggle-delete/${row.original._id}`, {
+                            method: 'PUT',
+                        });
+
+                        if (!response.ok) {
+                            console.error('Failed to toggle delete:', await response.json());
+                            return;
+                        }
+
+                        const result = await response.json();
+                        console.log('Delete toggled:', result);
+                        setRefresh(!refresh)
+                        setPagination((prev) => ({ ...prev, pageIndex: prev.pageIndex })); // Refresh data
+                    } catch (error) {
+                        console.error('Error toggling delete:', error);
+                    }
                 }}
             >
                 <ListItemIcon>
                     <DeleteIcon />
                 </ListItemIcon>
-                Delete
+                {row.original.delete ? 'Restore' : 'Delete'}
             </MenuItem>,
         ],
     });
