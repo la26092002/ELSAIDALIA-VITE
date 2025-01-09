@@ -26,7 +26,6 @@ export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-
   const navigate = useNavigate();
 
   const handleMenu = (event) => {
@@ -41,6 +40,12 @@ export default function MenuAppBar() {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("tokenAdmin");
+    handleClose();
+    navigate("/loginAdmin");
+  };
+
   const drawer = (
     <div>
       <Toolbar />
@@ -53,7 +58,7 @@ export default function MenuAppBar() {
           { text: "Produit Cota", path: "/admin/ProduitCota", icon: <Inventory2Icon /> },
         ].map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton component={Link} to={item.path}>
+            <ListItemButton component={Link} to={item.path} onClick={() => setMobileOpen(false)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -119,16 +124,7 @@ export default function MenuAppBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem
-                  onClick={() => {
-                    localStorage.removeItem("tokenAdmin");
-                
-                    handleClose();
-                    navigate("/loginAdmin");
-                  }}
-                >
-                  Deconnexion
-                </MenuItem>
+                <MenuItem onClick={handleLogout}>Deconnexion</MenuItem>
               </Menu>
             </div>
           </Toolbar>

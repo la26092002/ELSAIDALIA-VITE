@@ -17,55 +17,71 @@ const Fourniseur = () => {
   return (
     <div>
       <div sx={{ bgcolor: '#f5f5f5' }}>
-        <Box component="main">
+        <Box sx={{ minHeight: "100vh" }}>
           <Toolbar />
-          <Box sx={{ padding: '20px', textAlign: 'center' }}>
-            {/* Centered Title */}
-            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+          <Box
+            component="main"
+            sx={{
+              padding: { xs: "10px", sm: "20px" },
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            {/* Title */}
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                mb: 4,
+                fontSize: { xs: "1.5rem", sm: "2rem" },
+              }}
+            >
               Recherchez votre fournisseur
             </Typography>
 
             {/* Form Fields */}
-            <Box
+            <Grid
+              container
+              spacing={3}
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                mb: 4,
+                justifyContent: "center",
+                width: "100%",
+                maxWidth: "800px",
               }}
             >
-              <Grid container spacing={3} sx={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <TextField 
-                    label="Nom"
-                    variant="outlined"
-                    value={nom}
-                    onChange={(e) => setNom(e.target.value)}
-                    sx={{ width: '300px', marginBottom: '10px' }}
-                  />
-                </Grid>
-                <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <FormControl sx={{ width: '300px' }}>
-                    <InputLabel>Wilaya</InputLabel>
-                    <Select
-                      value={wilaya}
-                      onChange={(e) => setWilaya(e.target.value)}
-                      label="Wilaya"
-                    >
-                      {wilayas.map((wilay, index) => (
-                        <MenuItem key={index} value={wilay}>
-                          {wilay}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                {/* FournisseurTable aligned to the right */}
-                <Grid item xs={8} sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                  <FournisseurTable willaya={memoizedWilaya} nom={memoizedNom} />
-                </Grid>
+              {/* Product Search Input */}
+              <Grid item xs={12} sm={12} md={12}>
+                <TextField
+                  label="Nom"
+                  variant="outlined"
+                  value={nom}
+                  onChange={(e) => setNom(e.target.value)}
+                  sx={{ width: '300px', marginBottom: '10px' }}
+                />
               </Grid>
-            </Box>
+              <Grid item xs={12} sm={12} md={12}> <FormControl sx={{ width: '300px' }}>
+                <InputLabel>Wilaya</InputLabel>
+                <Select
+                  value={wilaya}
+                  onChange={(e) => setWilaya(e.target.value)}
+                  label="Wilaya"
+                >
+                  {wilayas.map((wilay, index) => (
+                    <MenuItem key={index} value={wilay}>
+                      {wilay}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              </Grid>
+
+              {/* FournisseurTable aligned to the right */}
+              <Grid item xs={12}>
+                <FournisseurTable willaya={memoizedWilaya} nom={memoizedNom} />
+              </Grid>
+            </Grid>
           </Box>
 
           {/* Footer */}

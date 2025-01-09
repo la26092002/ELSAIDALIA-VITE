@@ -33,7 +33,7 @@ const FournisseurApp = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "100vh",
+          minHeight: "50vh",
           padding: "20px",
         }}
       >

@@ -26,6 +26,8 @@ import Valid from "./components/Home/Valid";
 import PharmacyAdmin from "./components/Admin/Pharmacy/PharmacyAdmin";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 import Profile from "./components/Fournisseur/profile/Profile";
+import ProfilePharm from "./components/Pharmacien/profile/ProfilePharm";
+import ProduitCotaPharmcien from "./components/Pharmacien/produitCota/ProduitCotaPharmcien";
 
 
 
@@ -72,7 +74,18 @@ export const appRouter = createBrowserRouter(
       errorElement: <Error />,
       children: [
         { path: "produit", element: <ProduitPhar /> },
+        
+        { path: "produitCota", element: <ProduitCotaPharmcien /> },
+        
         { path: "fourniseur", element: <Fourniseur /> },
+        {
+          path: "Profil",
+          element: (
+            <PrivateRoute>
+              <ProfilePharm />
+            </PrivateRoute>
+          ),
+        },
       ],
     },
     {

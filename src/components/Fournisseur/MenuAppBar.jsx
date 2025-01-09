@@ -14,8 +14,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import HomeIcon from '@mui/icons-material/Home';
+import ProductIcon from '@mui/icons-material/Store';
+import OfferIcon from '@mui/icons-material/AttachMoney';
 import { Link, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -39,31 +40,27 @@ export default function MenuAppBar() {
   };
 
   const handleDeconnect = () => {
+    handleClose();
     localStorage.removeItem("token");
     navigate("/Seconnect");
   };
 
-  
   const handleProfile = () => {
-   
+    handleClose();
     navigate("/fournisseur/Profil");
   };
-  
 
   const drawer = (
     <div>
       <Toolbar />
       <List>
         {[
-          { text: 'Home', path: '/fournisseur' },
-          { text: 'Offre', path: '/fournisseur/offre' },
-          { text: 'Produit', path: '/fournisseur/produit' },
-          { text: 'Produit Cota', path: '/fournisseur/produitCota' },
+          { text: 'Home', path: '/fournisseur', icon: <HomeIcon /> },
+          { text: 'Produit', path: '/fournisseur/produit', icon: <ProductIcon /> },
+          { text: 'Offre', path: '/fournisseur/produitCota', icon: <OfferIcon /> },
         ].map((item, index) => (
           <ListItemButton key={item.text} component={Link} to={item.path}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
+            <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />
           </ListItemButton>
         ))}
@@ -138,7 +135,7 @@ export default function MenuAppBar() {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },

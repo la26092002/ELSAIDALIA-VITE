@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Box, Typography, Button, Grid, TextField } from '@mui/material';
+import { Box, Typography, Grid, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import ProductTable from './ProductTable';
@@ -7,64 +7,71 @@ import ProductTable from './ProductTable';
 const ProduitPhar = () => {
   const [productName, setProductName] = useState('');
 
-  const [showTable, setShowTable] = useState(false);
-
   // Memoized productName to optimize performance
   const memoizedProductName = useMemo(() => productName, [productName]);
 
-
-  const handleSearch = () => {
-    setShowTable(true);
-   
-  };
-
   return (
-    <div>
-      <div sx={{ bgcolor: '#f5f5f5' }}>
-        <Box component="main">
-          <Toolbar />
-          <Box sx={{ padding: '20px', textAlign: 'center' }}>
-            {/* Centered Title */}
-            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-              Recherchez votre produit
-            </Typography>
+    <Box sx={{ minHeight: "100vh" }}>
+      <Toolbar />
+      <Box
+        component="main"
+        sx={{
+          padding: { xs: "10px", sm: "20px" },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        {/* Title */}
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: "bold",
+            mb: 4,
+            fontSize: { xs: "1.5rem", sm: "2rem" },
+          }}
+        >
+          Recherchez votre produit
+        </Typography>
 
-            {/* Form Fields */}
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                mb: 4,
-              }}
-            >
-              <Grid container spacing={3} sx={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <TextField
-                    label="Nom du Produit"
-                    variant="outlined"
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
-                    style={{ width: '30%', marginBottom: '10px' }}
-                  />
-                </Grid>
+        {/* Form Fields */}
+        <Grid
+          container
+          spacing={3}
+          sx={{
+            justifyContent: "center",
+            width: "100%",
+            maxWidth: "800px",
+          }}
+        >
+          {/* Product Search Input */}
+          <Grid item xs={12} sm={6} md={4}>
+            <TextField
+              label="Nom du Produit"
+              variant="outlined"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+              fullWidth
+              sx={{ mb: 4 }}
+            />
+          </Grid>
 
-                {/* ProductTable aligned to the right */}
-                <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                <ProductTable productName={memoizedProductName} /> 
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
+          {/* Product Table */}
+          
+            <Grid item xs={12}>
+              <ProductTable productName={memoizedProductName} />
+            </Grid>
+        </Grid>
+      </Box>
 
-          {/* Footer */}
-          <footer>
-            <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
-              <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-            </Box>
-          </footer>
+      {/* Footer */}
+      <footer>
+        <Box sx={{ textAlign: "center", py: 2, mt: 4 }}>
+          <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
         </Box>
-      </div>
-    </div>
+      </footer>
+    </Box>
   );
 };
 

@@ -23,8 +23,8 @@ const UpdateUserDialog = ({ open, onClose, user, onUpdate }) => {
     // Send the updated data to the server
     try {
       
-      const actorFournisseur = localStorage.getItem('actorFournisseur');
-      const response = await fetch(URL+`/api/auth/update/${user._id}`, {
+      const actorFournisseur = localStorage.getItem('actorPharmacien');
+      const response = await fetch(URL+`/api/auth/update/${actorFournisseur}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

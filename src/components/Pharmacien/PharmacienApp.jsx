@@ -26,20 +26,23 @@ const SupplierStatistics = () => {
 const PharmacienApp = () => {
   const outlet = useOutlet(); // Checks if there is content in Outlet
 
+  
   return (
     <React.Fragment>
       <MenuAppBar />
       {/* Centering Content */}
       <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          padding: '20px',
-        }}
-      >
+  sx={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "10vh",
+    padding: { xs: "10px", sm: "20px" },
+    width: "100%",
+  }}
+>
+
         {/* Show statistics only if there's no Outlet content */}
         {!outlet ? (
           <Box textAlign="center">
@@ -54,6 +57,16 @@ const PharmacienApp = () => {
       </Box>
     </React.Fragment>
   );
+  
 };
 
 export default PharmacienApp;
+
+
+
+
+
+
+
+
+

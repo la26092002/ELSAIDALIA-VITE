@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Box, Typography, Button, Grid, TextField } from '@mui/material';
+import { Box, Typography, Button, Grid, TextField, Snackbar, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import ProductTable from './ProductTable';
@@ -14,10 +14,14 @@ const Produit = () => {
 
   const [refresh, setRefresh] = useState(false);
 
- // Using useMemo to pass the refresh state as a dependency to ProductTable
+  // Snackbar state
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'success' or 'error'
+
+  // Using useMemo to pass the refresh state as a dependency to ProductTable
   // Memoizing the refresh state to re-render ProductTable only when refresh value changes
   const memoizedRefresh = useMemo(() => refresh, [refresh]);
-
 
   // Fetch actor from localStorage on component mount
   useEffect(() => {
@@ -29,7 +33,9 @@ const Produit = () => {
 
   const handleAddProduct = async () => {
     if (!file || !productName || !actor) {
-      alert('Veuillez remplir tous les champs et ajouter un fichier.');
+      setSnackbarMessage('Veuillez remplir tous les champs et ajouter un fichier.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
       return;
     }
 
@@ -39,96 +45,104 @@ const Produit = () => {
     formData.append('actor', actor);
 
     try {
-      const response = await fetch(URL+'/api/product', {
+      const response = await fetch(URL + '/api/product', {
         method: 'POST',
         body: formData,
       });
 
-
       if (!response.ok) {
         throw new Error('Erreur lors de l’ajout du produit.');
-      }
+        
+        }
 
       const { data } = await response.json();
-      console.log(data)
-      setRefresh((prev) => !prev); 
-      alert('Produit ajouté avec succès!');
-      
+      console.log(data);
+      setRefresh((prev) => !prev);
+      setSnackbarMessage('Produit ajouté avec succès!');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+
       setResults((prev) => [...prev, data]); // Update results with the response
     } catch (error) {
       console.error('Erreur lors de l’ajout du produit:', error);
-      alert('Erreur lors de l’ajout du produit.');
+      setSnackbarMessage('Vous ne pouvez ajouter qu\'un seul produit dans les 24 heures.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
     }
   };
 
-  /*
-  {
-    "name": "j",
-    "dataPdf": "1733938067686_CastraNov CompanyPrice__.pdf",
-    "actor": "672639bc87775c00d4a9258f",
-    "_id": "6759cb93d1ef4909de4d4ef2",
-    "date": "2024-12-11T17:27:47.704Z",
-    "__v": 0
-}
-  */
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <div>
       <div sx={{ bgcolor: '#f5f5f5' }}>
-        <Box component="main">
+        <Box sx={{ minHeight: "100vh" }}>
           <Toolbar />
-          <Box sx={{ padding: '20px', textAlign: 'center' }}>
-            {/* Centered Title */}
-            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+          <Box
+            component="main"
+            sx={{
+              padding: { xs: "10px", sm: "20px" },
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            {/* Title */}
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                mb: 4,
+                fontSize: { xs: "1.5rem", sm: "2rem" },
+              }}
+            >
               Ajouter votre produit
             </Typography>
 
             {/* Form Fields */}
-            <Box
+            <Grid
+              container
+              spacing={3}
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                mb: 4,
+                justifyContent: "center",
+                width: "100%",
+                maxWidth: "800px",
               }}
             >
-              <Grid container spacing={3} sx={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <TextField
-                    label="Nom du Produit"
-                    variant="outlined"
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
-                    style={{ width: '30%', marginBottom: '10px' }}
-                  />
-                </Grid>
-                <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <input
-                    type="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    style={{ width: '30%', marginBottom: '10px' }}
-                  />
-                </Grid>
-                <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Button
-                    variant="contained"
-                    onClick={handleAddProduct}
-                    sx={{ backgroundColor: '#00796b', color: '#fff', height: '55px', width: '30%' }}
-                  >
-                    Ajouter le Produit
-                  </Button>
-                </Grid>
-
-                {/* ProductTable aligned to the right */}
-                <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                <ProductTable refresh={memoizedRefresh}  />
-                </Grid>
+              <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <TextField
+                  label="Nom du Produit"
+                  variant="outlined"
+                  value={productName}
+                  onChange={(e) => setProductName(e.target.value)}
+                  style={{ width: '30%', marginBottom: '10px' }}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <input
+                  type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  style={{ width: '30%', marginBottom: '10px' }}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Button
+                  variant="contained"
+                  onClick={handleAddProduct}
+                  sx={{ backgroundColor: '#00796b', color: '#fff', height: '55px', width: '30%' }}
+                >
+                  Ajouter le Produit
+                </Button>
               </Grid>
 
-
-
-
-
-            </Box>
+              {/* ProductTable aligned to the right */}
+              <Grid item xs={12}>
+                <ProductTable refresh={memoizedRefresh} />
+              </Grid>
+            </Grid>
           </Box>
 
           {/* Footer */}
@@ -139,6 +153,17 @@ const Produit = () => {
           </footer>
         </Box>
       </div>
+
+      {/* Snackbar for feedback */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
