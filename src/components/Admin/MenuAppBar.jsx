@@ -55,7 +55,7 @@ export default function MenuAppBar() {
           { text: "Fourniseur", path: "/admin/fourniseur", icon: <PeopleIcon /> },
           { text: "Pharmacien", path: "/admin/pharmacien", icon: <PeopleIcon /> },
           { text: "Produit", path: "/admin/produit", icon: <Inventory2Icon /> },
-          { text: "Produit Cota", path: "/admin/ProduitCota", icon: <Inventory2Icon /> },
+          { text: "Offre", path: "/admin/ProduitCota", icon: <Inventory2Icon /> },
         ].map((item) => (
           <ListItem key={item.text} disablePadding>
             <ListItemButton component={Link} to={item.path} onClick={() => setMobileOpen(false)}>
