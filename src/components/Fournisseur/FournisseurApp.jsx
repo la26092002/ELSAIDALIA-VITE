@@ -4,7 +4,6 @@ import { Outlet, useOutlet } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 const ProductStatistics = () => {
-  // Replace with actual data fetching and display logic
   return (
     <div>
       <h2>Product Statistics</h2>
@@ -14,7 +13,6 @@ const ProductStatistics = () => {
 };
 
 const SupplierStatistics = () => {
-  // Replace with actual data fetching and display logic
   return (
     <div>
       <h2>Supplier Statistics</h2>
@@ -29,7 +27,6 @@ const FournisseurApp = () => {
   return (
     <React.Fragment>
       <MenuAppBar />
-      {/* Centering Content */}
       <Box
         sx={{
           display: "flex",
@@ -40,11 +37,9 @@ const FournisseurApp = () => {
           padding: "20px",
         }}
       >
-        {/* Show statistics only if there's no Outlet content */}
         {!outlet ? (
           <Box textAlign="center">
             <h1>Fournisseur Dashboard</h1>
-            {/* Statistics Sections */}
             <SupplierStatistics />
             <ProductStatistics />
           </Box>
@@ -54,7 +49,6 @@ const FournisseurApp = () => {
       </Box>
     </React.Fragment>
   );
-  
 };
 
 export default FournisseurApp;

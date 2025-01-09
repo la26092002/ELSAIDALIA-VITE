@@ -25,6 +25,7 @@ import Forgetpassword from "./components/Home/Forgetpassword";
 import Valid from "./components/Home/Valid";
 import PharmacyAdmin from "./components/Admin/Pharmacy/PharmacyAdmin";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
+import Profile from "./components/Fournisseur/profile/Profile";
 
 
 
@@ -103,6 +104,15 @@ export const appRouter = createBrowserRouter(
             </PrivateRoute>
           ),
         },
+        {
+          path: "Profil",
+          element: (
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          ),
+        },
+        
       ],
     },
     { path: "/", element: <Principle /> },
