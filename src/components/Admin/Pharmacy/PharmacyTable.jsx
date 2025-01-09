@@ -3,11 +3,9 @@ import {
     MaterialReactTable,
     useMaterialReactTable,
 } from 'material-react-table';
-import { Box, MenuItem, ListItemIcon } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, MenuItem, ListItemIcon, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 import BlockIcon from '@mui/icons-material/Block';
+import EditIcon from '@mui/icons-material/Edit';
 import { URL } from '../../../constants/Constants';
 
 export default function PharmacyTable({ willaya, nom }) {
@@ -18,6 +16,9 @@ export default function PharmacyTable({ willaya, nom }) {
         pageSize: 5,
     });
     const [change, setChange] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [selectedActor, setSelectedActor] = useState(null);
+    const [newSubscribeDate, setNewSubscribeDate] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,6 +55,25 @@ export default function PharmacyTable({ willaya, nom }) {
         }
     };
 
+    const handleSubscribeUpdate = async () => {
+        try {
+            await fetch(`${URL}/api/auth/update-subscribe/${selectedActor._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    subscribes: newSubscribeDate,
+                }),
+            });
+            setChange(!change);
+            setOpenDialog(false);
+            console.log(`Subscribes updated for ID: ${selectedActor._id}, New Date: ${newSubscribeDate}`);
+        } catch (error) {
+            console.error('Error updating subscribes:', error);
+        }
+    };
+
     const columns = useMemo(
         () => [
             {
@@ -65,7 +85,7 @@ export default function PharmacyTable({ willaya, nom }) {
                 header: 'Status',
                 accessorKey: 'status',
                 Cell: ({ cell }) => {
-                    const isActive = cell.getValue(); // Get the boolean value
+                    const isActive = cell.getValue();
                     return (
                         <Box
                             sx={{
@@ -80,6 +100,32 @@ export default function PharmacyTable({ willaya, nom }) {
                             }}
                         >
                             {isActive ? 'Active' : 'Inactive'}
+                        </Box>
+                    );
+                },
+            },
+            {
+                header: 'Subscribe Date',
+                accessorKey: 'subscribes',
+                Cell: ({ cell }) => {
+                    const subscribeDate = new Date(cell.getValue());
+                    const now = new Date();
+                    const isFuture = subscribeDate > now;
+
+                    return (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '4px',
+                                backgroundColor: isFuture ? 'green' : 'red',
+                                color: 'white',
+                                borderRadius: '4px',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {subscribeDate.toLocaleDateString()}
                         </Box>
                     );
                 },
@@ -100,7 +146,6 @@ export default function PharmacyTable({ willaya, nom }) {
                     </a>
                 ),
             },
-            
             {
                 header: 'Date',
                 accessorKey: 'date',
@@ -140,20 +185,55 @@ export default function PharmacyTable({ willaya, nom }) {
                 </ListItemIcon>
                 {row.original.status ? 'Inactiver' : 'Activer'}
             </MenuItem>,
+            <MenuItem
+                key="update-subscribe"
+                onClick={() => {
+                    closeMenu();
+                    setSelectedActor(row.original);
+                    setNewSubscribeDate('');
+                    setOpenDialog(true);
+                }}
+            >
+                <ListItemIcon>
+                    <EditIcon />
+                </ListItemIcon>
+                Update Subscribe
+            </MenuItem>,
         ],
     });
 
     return (
-        <MaterialReactTable
-            table={table}
-            pagination={{
-                pageIndex: pagination.pageIndex,
-                pageSize: pagination.pageSize,
-                onPageChange: (pageIndex) =>
-                    setPagination((prev) => ({ ...prev, pageIndex })),
-                onPageSizeChange: (pageSize) =>
-                    setPagination((prev) => ({ ...prev, pageSize })),
-            }}
-        />
+        <>
+            <MaterialReactTable
+                table={table}
+                pagination={{
+                    pageIndex: pagination.pageIndex,
+                    pageSize: pagination.pageSize,
+                    onPageChange: (pageIndex) =>
+                        setPagination((prev) => ({ ...prev, pageIndex })),
+                    onPageSizeChange: (pageSize) =>
+                        setPagination((prev) => ({ ...prev, pageSize })),
+                }}
+            />
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+                <DialogTitle>Update Subscribes</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        type="date"
+                        fullWidth
+                        value={newSubscribeDate}
+                        onChange={(e) => setNewSubscribeDate(e.target.value)}
+                        label="New Subscribe Date"
+                        InputLabelProps={{ shrink: true }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+                    <Button onClick={handleSubscribeUpdate} disabled={!newSubscribeDate}>
+                        Update
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
