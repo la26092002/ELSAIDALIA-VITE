@@ -264,10 +264,12 @@ const Register = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
+
                 <Button variant="outlined" component="label">
-                  Télécharger le fichier de registre de commerce (PDF)
-                  <input type="file" hidden accept="application/pdf" onChange={handleFileUpload} />
-                </Button>
+  Télécharger une image
+  <input type="file" hidden accept="image/*" onChange={handleFileUpload} />
+</Button>
+
                 {file && <Typography variant="body2" sx={{ mt: 1 }}>{file.name}</Typography>}
               </Grid>
 

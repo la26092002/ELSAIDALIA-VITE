@@ -12,20 +12,20 @@ const Profile = () => {
     email: '',
     willaya: '',
     category: '',
-    dataPdf: '',  // Store the PDF URL or file here
+    dataPdf: '',  // This field now stores the image file name or URL
   });
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(false);  // To show loading during the file upload
-  const [changes, setChanges] = useState(false);  // To trigger a re-fetch of user data
-  const [snackbarOpen, setSnackbarOpen] = useState(false);  // Control Snackbar visibility
-  const [snackbarMessage, setSnackbarMessage] = useState('');  // Message to display in the Snackbar
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');  // Severity type for the Snackbar
+  const [loading, setLoading] = useState(false);  
+  const [changes, setChanges] = useState(false);  
+  const [snackbarOpen, setSnackbarOpen] = useState(false);  
+  const [snackbarMessage, setSnackbarMessage] = useState('');  
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');  
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const actorFournisseur = localStorage.getItem('actorFournisseur');
-        const response = await fetch(URL + '/api/auth/Data/' + actorFournisseur);
+        const actorPharmId = localStorage.getItem('actorFournisseur');
+        const response = await fetch(URL + '/api/auth/Data/' + actorPharmId);
         const data = await response.json();
 
         if (data.success) {
@@ -53,20 +53,21 @@ const Profile = () => {
     setUser(updatedUser);
   };
 
-  const handlePdfChange = async (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      setLoading(true);  // Set loading state to true
+      setLoading(true);
 
       const formData = new FormData();
       formData.append('file', file);
 
       try {
-        const actorFournisseur = localStorage.getItem('actorFournisseur');
-        const response = await fetch(`${URL}/api/auth/update-pdf/${actorFournisseur}`, {
+        const actorPharmId = localStorage.getItem('actorFournisseur');
+        // Use the new update-image endpoint
+        const response = await fetch(`${URL}/api/auth/update-image/${actorPharmId}`, {
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,  // Pass token if required
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },
           body: formData,
         });
@@ -74,39 +75,39 @@ const Profile = () => {
         const data = await response.json();
 
         if (response.ok) {
-          // Update user data after successful PDF update
+          // Update the user data with the new image file name returned from the server
           setUser((prevState) => ({
             ...prevState,
-            dataPdf: data._id,  // Assuming the API returns the actor's _id or the new PDF data
+            dataPdf: data.dataPdf,  
           }));
           setChanges(!changes);
-          setSnackbarMessage('PDF mis à jour avec succès!');
+          setSnackbarMessage('Image mise à jour avec succès!');
           setSnackbarSeverity('success');
         } else {
-          console.error('Error updating PDF:', data.error);
-          setSnackbarMessage('Erreur lors de la mise à jour du PDF.');
+          console.error('Error updating image:', data.error);
+          setSnackbarMessage("Erreur lors de la mise à jour de l'image.");
           setSnackbarSeverity('error');
         }
       } catch (error) {
-        console.error('Error during PDF upload:', error);
-        setSnackbarMessage('Erreur lors de l\'upload du PDF.');
+        console.error('Error during image upload:', error);
+        setSnackbarMessage("Erreur lors de l'upload de l'image.");
         setSnackbarSeverity('error');
       } finally {
-        setLoading(false);  // Set loading state back to false
-        setSnackbarOpen(true);  // Open the Snackbar
+        setLoading(false);
+        setSnackbarOpen(true);
       }
     }
   };
 
-  const handlePdfDownload = () => {
+  const handleImageDownload = () => {
     const link = document.createElement('a');
     link.href = `${URL}/api/auth/download?file=${user.dataPdf}`;
-    link.download = 'user_profile.pdf'; // Default name for the downloaded PDF
+    link.download = 'user_profile_image'; 
     link.click();
   };
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false);  // Close the Snackbar
+    setSnackbarOpen(false);
   };
 
   return (
@@ -120,7 +121,16 @@ const Profile = () => {
           padding: '20px',
           minHeight: 'calc(100vh - 64px)',
         }}
-      ><Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: 4, textAlign: 'center' }}>
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 'bold',
+            marginBottom: 4,
+            textAlign: 'center',
+            marginTop: '30px',
+          }}
+        >
           Informations de l'utilisateur
         </Typography>
 
@@ -141,27 +151,37 @@ const Profile = () => {
         >
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Nom:</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Nom:
+              </Typography>
               <Typography variant="body1">{user.nom}</Typography>
             </Grid>
 
             <Grid item xs={12} sm={6} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Prénom:</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Prénom:
+              </Typography>
               <Typography variant="body1">{user.prenom}</Typography>
             </Grid>
 
             <Grid item xs={12} sm={6} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Téléphone:</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Téléphone:
+              </Typography>
               <Typography variant="body1">{user.telephone}</Typography>
             </Grid>
 
             <Grid item xs={12} sm={6} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Email:</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Email:
+              </Typography>
               <Typography variant="body1">{user.email}</Typography>
             </Grid>
 
             <Grid item xs={12} sm={6} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Willaya:</Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Willaya:
+              </Typography>
               <Typography variant="body1">{user.willaya}</Typography>
             </Grid>
           </Grid>
@@ -176,9 +196,12 @@ const Profile = () => {
           </Button>
         </Box>
 
-        {/* PDF Display and Modify Section */}
-        <Typography variant="h6" sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}>
-          PDF du profil
+        {/* Image Display and Modify Section */}
+        <Typography
+          variant="h6"
+          sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
+        >
+          Image du profil
         </Typography>
 
         <Box
@@ -199,50 +222,48 @@ const Profile = () => {
           {user.dataPdf ? (
             <>
               <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                Vous avez un PDF associé à votre profil.
+                Vous avez une image associée à votre profil.
               </Typography>
               <Button
                 variant="contained"
                 sx={{
                   marginBottom: 2,
                   width: '200px',
-                  backgroundColor: '#D32F2F',  // PDF red
-                  '&:hover': { backgroundColor: '#C2185B' }, // Darker red on hover
+                  backgroundColor: '#D32F2F',
+                  '&:hover': { backgroundColor: '#C2185B' },
                 }}
-                onClick={handlePdfDownload}
+                onClick={handleImageDownload}
               >
-                Télécharger le PDF
+                Télécharger l'image
               </Button>
             </>
           ) : (
             <Typography variant="body1" sx={{ marginBottom: 2 }}>
-              Aucun PDF disponible pour votre profil.
+              Aucune image disponible pour votre profil.
             </Typography>
           )}
 
           <Button
-             variant="outlined"
-             color="success"  // Change color to success to match the first button
-             
+            variant="outlined"
+            color="success"
             component="label"
             sx={{
               marginTop: 2,
               width: '200px',
-               }}
-            disabled={loading}  // Disable when loading
+            }}
+            disabled={loading}
           >
-            {loading ? 'Téléchargement en cours...' : 'Modifier le PDF'}
+            {loading ? 'Téléchargement en cours...' : "Modifier l'image"}
             <input
               type="file"
-              accept="application/pdf"
+              accept="image/*"
               hidden
-              onChange={handlePdfChange}
+              onChange={handleImageChange}
             />
           </Button>
         </Box>
       </Box>
 
-      {/* Update User Dialog */}
       <UpdateUserDialog
         open={dialogOpen}
         onClose={handleCloseDialog}
@@ -250,13 +271,16 @@ const Profile = () => {
         onUpdate={handleUpdateUser}
       />
 
-      {/* Snackbar for notifications */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: '100%' }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>
