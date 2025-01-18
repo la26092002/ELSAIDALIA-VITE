@@ -222,7 +222,7 @@ const Profile = () => {
           {user.dataPdf ? (
             <>
               <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                Vous avez une image associée à votre profil.
+                Vous avez une image du registre de commerce associée à votre profil.
               </Typography>
               <Button
                 variant="contained"
@@ -239,7 +239,7 @@ const Profile = () => {
             </>
           ) : (
             <Typography variant="body1" sx={{ marginBottom: 2 }}>
-              Aucune image disponible pour votre profil.
+              Aucune image du registre de commerce disponible pour votre profil.
             </Typography>
           )}
 

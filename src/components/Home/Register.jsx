@@ -21,17 +21,14 @@ const Register = () => {
   const [role, setRole] = useState('');
   const [telephone, setTelephone] = useState('');
   const [email, setEmail] = useState('');
-
   const [willaya, setWillaya] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [file, setFile] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navigate = useNavigate();
-
-
-
   const [spinner, setSpinner] = useState(false);
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const drawerWidth = 240;
 
@@ -43,9 +40,6 @@ const Register = () => {
     { text: 'Se connecter', link: '/Seconnect' },
   ];
 
-
-
-
   const wilayas = [
     "Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar",
     "Blida", "Bouira", "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Alger",
@@ -56,7 +50,6 @@ const Register = () => {
     "Relizane", "Timimoun", "Bordj Badji Mokhtar", "Ouled Djellal", "Béni Abbès", "In Salah", "In Guezzam",
     "Touggourt", "Djanet", "El M’Ghair", "El Meniaa"
   ];
-
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -77,19 +70,47 @@ const Register = () => {
       </List>
     </Box>
   );
-  const handleRegister = async () => {
-    setSpinner(true)
-    if (password !== confirmPassword) {
-      alert("Les mots de passe ne correspondent pas");
-      return;
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!nom) newErrors.nom = 'Le nom est requis';
+    if (!prenom) newErrors.prenom = 'Le prénom est requis';
+    if (!role) newErrors.role = 'Le rôle est requis';
+    if (!telephone) newErrors.telephone = 'Le numéro de téléphone est requis';
+    if (!email) {
+      newErrors.email = 'L\'email est requis';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = 'L\'email est invalide';
     }
+    if (!willaya) newErrors.willaya = 'La wilaya est requise';
+    if (!password) {
+      newErrors.password = 'Le mot de passe est requis';
+    } else if (password.length < 6) {
+      newErrors.password = 'Le mot de passe doit contenir au moins 6 caractères';
+    }
+    if (!confirmPassword) {
+      newErrors.confirmPassword = 'La confirmation du mot de passe est requise';
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = 'Les mots de passe ne correspondent pas';
+    }
+    if (!file) newErrors.file = 'Une image est requise';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleRegister = async () => {
+    if (!validate()) return;
+
+    setSpinner(true);
 
     const formData = new FormData();
     formData.append("file", file);
     formData.append("nom", nom);
     formData.append("prenom", prenom);
     formData.append("telephone", telephone);
-    formData.append("email", email); // Example email generation
+    formData.append("email", email);
     formData.append("willaya", willaya);
     formData.append("category", role);
     formData.append("password", password);
@@ -100,11 +121,11 @@ const Register = () => {
         body: formData,
       });
 
-      setSpinner(false)
+      setSpinner(false);
       if (response.ok) {
         const result = await response.json();
         alert("Inscription réussie !");
-        navigate("/Seconnect"); // Navigate to login page after success
+        navigate("/Seconnect");
       } else {
         const error = await response.json();
         alert(`Échec de l'inscription: ${error.message}`);
@@ -114,7 +135,6 @@ const Register = () => {
       alert("Une erreur s'est produite. Veuillez réessayer.");
     }
   };
-
 
   const handleFileUpload = (e) => {
     setFile(e.target.files[0]);
@@ -163,170 +183,175 @@ const Register = () => {
         </nav>
       </Box>
 
-      {
-        spinner ? (
-          <Box
-            sx={{
-              width: '100%',
-              maxWidth: 480,
-              mx: 'auto',
-              mt: 15,
-              p: 5,
-              backgroundColor: '#f7f7f7',
-              borderRadius: '12px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              textAlign: 'center',
-            }}
-          >
-            <CircularProgress />
-
-
-
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              width: '100%',
-              maxWidth: 600,
-              mx: 'auto',
-              mt: 15,
-              p: 3,
-              backgroundColor: '#fff',
-              borderRadius: '10px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-
-            }}
-          >
-            <Typography variant="h4" sx={{ mb: 3, textAlign: 'center', color: '#00796b' }}>
-              Inscription
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Nom"
-                  variant="outlined"
-                  value={nom}
-                  onChange={(e) => setNom(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Prénom"
-                  variant="outlined"
-                  value={prenom}
-                  onChange={(e) => setPrenom(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel>Rôle</InputLabel>
-                  <Select value={role} onChange={(e) => setRole(e.target.value)} label="Rôle">
-                    <MenuItem value="Pharmacien">Pharmacien</MenuItem>
-                    <MenuItem value="Fournisseur">Fournisseur</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Numéro de Téléphone"
-                  variant="outlined"
-                  value={telephone}
-                  onChange={(e) => setTelephone(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Email"
-                  variant="outlined"
-                  type='email'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel>Wilaya</InputLabel>
-                  <Select
-                    value={willaya}
-                    onChange={(e) => setWillaya(e.target.value)}
-                    label="Wilaya"
-                  >
-                    {wilayas.map((wilay, index) => (
-                      <MenuItem key={index} value={wilay}>
-                        {wilay}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-
-                <Button variant="outlined" component="label">
-  Télécharger une image
-  <input type="file" hidden accept="image/*" onChange={handleFileUpload} />
-</Button>
-
-                {file && <Typography variant="body2" sx={{ mt: 1 }}>{file.name}</Typography>}
-              </Grid>
-
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Mot de Passe"
-                  type="password"
-                  variant="outlined"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Confirmer le Mot de Passe"
-                  type="password"
-                  variant="outlined"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  sx={{ backgroundColor: '#00796b', color: '#fff' }}
-                  onClick={handleRegister}
-                >
-                  S'inscrire
-                </Button>
-
-              </Grid>
-              <Grid item xs={12} sx={{ mt: 2 }}>
-                <Typography variant="body2">
-                  Si vous avez un compte,{' '}
-                  <Link
-                    component={RouterLink}
-                    to="/Seconnect"
-                    sx={{ color: '#00796b', fontWeight: 'bold' }}
-                  >
-                    Connectez-vous !
-                  </Link>
-                </Typography>
-              </Grid>
-
-
-
+      {spinner ? (
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: 480,
+            mx: 'auto',
+            mt: 15,
+            p: 5,
+            backgroundColor: '#f7f7f7',
+            borderRadius: '12px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            textAlign: 'center',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: 600,
+            mx: 'auto',
+            mt: 15,
+            p: 3,
+            backgroundColor: '#fff',
+            borderRadius: '10px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <Typography variant="h4" sx={{ mb: 3, textAlign: 'center', color: '#00796b' }}>
+            Inscription
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Nom"
+                variant="outlined"
+                value={nom}
+                onChange={(e) => setNom(e.target.value)}
+                error={!!errors.nom}
+                helperText={errors.nom}
+              />
             </Grid>
-          </Box>
-        )
-      }
-    </>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Prénom"
+                variant="outlined"
+                value={prenom}
+                onChange={(e) => setPrenom(e.target.value)}
+                error={!!errors.prenom}
+                helperText={errors.prenom}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth error={!!errors.role}>
+                <InputLabel>Rôle</InputLabel>
+                <Select value={role} onChange={(e) => setRole(e.target.value)} label="Rôle">
+                  <MenuItem value="Pharmacien">Pharmacien</MenuItem>
+                  <MenuItem value="Fournisseur">Fournisseur</MenuItem>
+                </Select>
+                {errors.role && <Typography variant="caption" color="error">{errors.role}</Typography>}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Numéro de Téléphone"
+                variant="outlined"
+                value={telephone}
+                onChange={(e) => setTelephone(e.target.value)}
+                error={!!errors.telephone}
+                helperText={errors.telephone}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Email"
+                variant="outlined"
+                type='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth error={!!errors.willaya}>
+                <InputLabel>Wilaya</InputLabel>
+                <Select
+                  value={willaya}
+                  onChange={(e) => setWillaya(e.target.value)}
+                  label="Wilaya"
+                >
+                  {wilayas.map((wilay, index) => (
+                    <MenuItem key={index} value={wilay}>
+                      {wilay}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.willaya && <Typography variant="caption" color="error">{errors.willaya}</Typography>}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button variant="outlined" component="label">
+              Ajouter une photo du registre de commerce
+                <input type="file" hidden accept="image/*" onChange={handleFileUpload} />
+              </Button>
+              {file && <Typography variant="body2" sx={{ mt: 1 }}>{file.name}</Typography>}
+              {errors.file && <Typography variant="caption" color="error">{errors.file}</Typography>}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Mot de Passe"
+                type="password"
+                variant="outlined"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={!!errors.password}
+                helperText={errors.password}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Confirmer le Mot de Passe"
+                type="password"
+                variant="outlined"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{ backgroundColor: '#00796b', color: '#fff' }}
+                onClick={handleRegister}
+              >
+                S'inscrire
+              </Button>
+            </Grid>
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <Typography variant="body2">
+                Si vous avez un compte,{' '}
+                <Link
+                  component={RouterLink}
+                  to="/Seconnect"
+                  sx={{ color: '#00796b', fontWeight: 'bold' }}
+                >
+                  Connectez-vous !
+                </Link>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
 
+       <footer>
+                <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
+                  <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+                </Box>
+              </footer>
+    </>
   );
 };
 

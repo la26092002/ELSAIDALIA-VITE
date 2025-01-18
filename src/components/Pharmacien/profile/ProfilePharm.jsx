@@ -222,7 +222,7 @@ const ProfilePharm = () => {
           {user.dataPdf ? (
             <>
               <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                Vous avez une image associée à votre profil.
+              Vous avez une image du registre de commerce associée à votre profil.
               </Typography>
               <Button
                 variant="contained"
