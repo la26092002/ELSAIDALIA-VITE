@@ -4,7 +4,7 @@ import { Box, MenuItem, ListItemIcon } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { URL } from '../../../constants/Constants';
 
-export default function ProductCotaTable() {
+export default function ProductCotaTable({refreshTable:refresh}) {
     const [data, setData] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const [pagination, setPagination] = useState({
@@ -37,7 +37,7 @@ export default function ProductCotaTable() {
         };
 
         fetchData();
-    }, [pagination, refresh]);
+    }, [pagination, refresh,refreshTable]);
 
     const columns = useMemo(
         () => [
