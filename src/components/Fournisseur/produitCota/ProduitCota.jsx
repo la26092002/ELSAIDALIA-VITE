@@ -60,7 +60,7 @@ const ProduitCota = () => {
       }
     } catch (error) {
       console.error('Erreur lors de l’ajout du offre:', error);
-      setSnackbarMessage('Vous ne pouvez ajouter qu\'un seul produit dans les 24 heures.');
+      setSnackbarMessage('vous avez quelque problème.');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }

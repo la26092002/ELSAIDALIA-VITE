@@ -22,7 +22,7 @@ export default function ProductTable({productName}) {
         const fetchData = async () => {
             try {
                 const response = await fetch(
-                    URL+`/api/product?page=${pagination.pageIndex}&size=${pagination.pageSize}&productName=${productName}`
+                    URL+`/api/product/search-in-pdf?page=${pagination.pageIndex}&size=${pagination.pageSize}&searchTerms=${productName}`
                 );
                 const result = await response.json();
                 setData(result?.data || []); // Assuming API response includes `data`
