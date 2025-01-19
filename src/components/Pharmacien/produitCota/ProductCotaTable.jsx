@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { MaterialReactTable } from 'material-react-table';
-import { Box, MenuItem, ListItemIcon } from '@mui/material';
+import {
+    MaterialReactTable,
+    useMaterialReactTable,
+} from 'material-react-table';
+import { Box, MenuItem, ListItemIcon, CircularProgress } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { URL } from '../../../constants/Constants';
 
@@ -22,7 +25,7 @@ export default function ProductCotaTable() {
             setError(null);
             try {
                 const response = await fetch(
-                    `${URL}/api/productCota?page=${pagination.pageIndex}&size=${pagination.pageSize}`
+                    `${URL}/api/productCota?page=${pagination.pageIndex}&size=${pagination.pageSize}&date=true`
                 );
                 const result = await response.json();
                 console.log('API Response:', result);
@@ -50,7 +53,6 @@ export default function ProductCotaTable() {
                 header: 'Name',
                 accessorKey: 'name',
             },
-           
             {
                 header: 'PDF',
                 accessorKey: 'dataPdf',
@@ -128,46 +130,69 @@ export default function ProductCotaTable() {
         }
     };
 
+    const table = useMaterialReactTable({
+        columns,
+        data,
+        manualPagination: true,
+        onPaginationChange: setPagination,
+        rowCount,
+        state: { pagination },
+        enableEditing: true,
+        editDisplayMode: 'modal',
+        onEditingRowSave: handleEditingRowSave,
+        onEditingRowCancel: handleEditingRowCancel,
+        enableColumnFilterModes: true,
+        enableColumnOrdering: true,
+        enableGrouping: true,
+        enableColumnPinning: true,
+        enableFacetedValues: true,
+        enableRowActions: true,
+        renderRowActionMenuItems: ({ row, closeMenu }) => [
+            <MenuItem
+                key="delete"
+                onClick={() => {
+                    closeMenu();
+                    handleDelete(row.original._id);
+                }}
+            >
+                <ListItemIcon>
+                    <DeleteIcon />
+                </ListItemIcon>
+                {row.original.delete ? 'Restore' : 'Delete'}
+            </MenuItem>,
+        ],
+    });
+
     return (
-        <div>
-            {loading && <div>Loading...</div>}
+        <Box position="relative">
+            {loading && (
+                <Box
+                    position="absolute"
+                    top={0}
+                    left={0}
+                    right={0}
+                    bottom={0}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    bgcolor="rgba(255, 255, 255, 0.7)"
+                    zIndex={1}
+                >
+                    <CircularProgress />
+                </Box>
+            )}
             {error && <div>{error}</div>}
             <MaterialReactTable
-                columns={columns}
-                data={data}
-                manualFiltering
-                manualSorting
-                manualPagination
-                enableEditing
-                editDisplayMode="modal"
-                onEditingRowSave={handleEditingRowSave}
-                onEditingRowCancel={handleEditingRowCancel}
-                enableColumnFilterModes
-                enableColumnOrdering
-                enableGrouping
-                enableColumnPinning
-                enableFacetedValues
-                enableRowActions
-                rowCount={rowCount}
-                onPaginationChange={({ pageIndex, pageSize }) =>
-                    setPagination({ pageIndex, pageSize })
-                }
-                state={{ pagination }}
-                renderRowActionMenuItems={({ row, closeMenu }) => [
-                    <MenuItem
-                        key="delete"
-                        onClick={() => {
-                            closeMenu();
-                            handleDelete(row.original._id);
-                        }}
-                    >
-                        <ListItemIcon>
-                            <DeleteIcon />
-                        </ListItemIcon>
-                        {row.original.delete ? 'Restore' : 'Delete'}
-                    </MenuItem>,
-                ]}
+                table={table}
+                pagination={{
+                    pageIndex: pagination.pageIndex,
+                    pageSize: pagination.pageSize,
+                    onPageChange: (pageIndex) =>
+                        setPagination((prev) => ({ ...prev, pageIndex })),
+                    onPageSizeChange: (pageSize) =>
+                        setPagination((prev) => ({ ...prev, pageSize })),
+                }}
             />
-        </div>
+        </Box>
     );
 }
