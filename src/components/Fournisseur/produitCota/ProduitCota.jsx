@@ -20,7 +20,7 @@ const ProduitCota = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'success' or 'error'
 
   // Using useMemo to pass the refresh state as a dependency to ProductTable
-  const memoizedProductTable = useMemo(() => <ProductCotaTable refresh={refresh} />, [refresh]);
+  const memoizedProductTable = useMemo(() => <ProductCotaTable refreshTable={refresh} />, [refresh]);
 
   // Fetch actor from localStorage on component mount
   useEffect(() => {

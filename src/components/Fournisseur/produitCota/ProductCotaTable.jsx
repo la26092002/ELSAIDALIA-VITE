@@ -4,7 +4,7 @@ import { Box, MenuItem, ListItemIcon } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { URL } from '../../../constants/Constants';
 
-export default function ProductCotaTable({refreshTable:refresh}) {
+export default function ProductCotaTable({ refreshTable }) {
     const [data, setData] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const [pagination, setPagination] = useState({
@@ -13,9 +13,7 @@ export default function ProductCotaTable({refreshTable:refresh}) {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [refresh, setRefresh] = useState(false); // Added to trigger data refresh
 
-    // Fetch data from the API
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -37,7 +35,7 @@ export default function ProductCotaTable({refreshTable:refresh}) {
         };
 
         fetchData();
-    }, [pagination, refresh,refreshTable]);
+    }, [pagination, refreshTable]);
 
     const columns = useMemo(
         () => [
@@ -54,19 +52,20 @@ export default function ProductCotaTable({refreshTable:refresh}) {
                 header: 'Deleted',
                 accessorKey: 'delete',
                 enableEditing: false,
-                Cell: ({ cell }) => (
-                    <Box
-                        sx={{
-                            backgroundColor: cell.getValue() ? '#ffcccc' : '#ccffcc',
-                            color: cell.getValue() ? '#cc0000' : '#006600',
-                            padding: '5px',
-                            borderRadius: '4px',
-                            textAlign: 'center',
-                        }}
-                    >
-                        {cell.getValue() ? 'Yes' : 'No'}
-                    </Box>
-                ),
+                Cell: ({ cell }) => {
+                    const deletedCellStyle = {
+                        backgroundColor: cell.getValue() ? '#ffcccc' : '#ccffcc',
+                        color: cell.getValue() ? '#cc0000' : '#006600',
+                        padding: '5px',
+                        borderRadius: '4px',
+                        textAlign: 'center',
+                    };
+                    return (
+                        <Box sx={deletedCellStyle}>
+                            {cell.getValue() ? 'Yes' : 'No'}
+                        </Box>
+                    );
+                },
             },
             {
                 header: 'PDF',
@@ -115,7 +114,7 @@ export default function ProductCotaTable({refreshTable:refresh}) {
                     name: values.name,
                 }),
             });
-            setRefresh(!refresh); // Trigger data refresh
+            refreshTable(); // Trigger data refresh
             table.setEditingRow(null); // Exit editing mode
         } catch (error) {
             console.error('Error saving row:', error);
@@ -133,14 +132,16 @@ export default function ProductCotaTable({refreshTable:refresh}) {
             });
 
             if (!response.ok) {
-                console.error('Failed to toggle delete:', await response.json());
+                const errorData = await response.json();
+                setError(`Failed to toggle delete: ${errorData.message}`);
                 return;
             }
 
             const result = await response.json();
             console.log('Delete toggled:', result);
-            setRefresh(!refresh); // Trigger data refresh
+            refreshTable(); // Trigger data refresh
         } catch (error) {
+            setError('Error toggling delete');
             console.error('Error toggling delete:', error);
         }
     };
