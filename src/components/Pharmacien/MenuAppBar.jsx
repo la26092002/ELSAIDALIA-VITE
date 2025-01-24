@@ -55,7 +55,7 @@ export default function MenuAppBar() {
       <List>
         {[
           { text: "Home", path: "/Pharmacien", icon: <HomeIcon /> },
-          { text: "Produit", path: "/Pharmacien/produit", icon: <Inventory2Icon /> },
+          { text: "Listing", path: "/Pharmacien/produit", icon: <Inventory2Icon /> },
           { text: "Offre", path: "/pharmacien/produitCota", icon: <Inventory2Icon /> },
           
           { text: "Fournisseur", path: "/Pharmacien/fourniseur", icon: <PeopleIcon /> },

@@ -54,7 +54,7 @@ const ProduitPhar = () => {
             fontSize: { xs: "1.5rem", sm: "2rem" },
           }}
         >
-          Recherchez votre produit
+          Recherchez votre listing
         </Typography>
 
         {/* Champ de saisie et bouton pour ajouter des mots-clés */}

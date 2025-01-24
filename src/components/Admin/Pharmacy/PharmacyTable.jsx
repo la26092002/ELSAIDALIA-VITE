@@ -7,8 +7,11 @@ import { Box, MenuItem, ListItemIcon, TextField, Dialog, DialogActions, DialogCo
 import BlockIcon from '@mui/icons-material/Block';
 import EditIcon from '@mui/icons-material/Edit';
 import { URL } from '../../../constants/Constants';
+import { useNavigate } from 'react-router-dom';
 
 export default function PharmacyTable({ willaya, nom }) {
+      const navigate = useNavigate(); // Initialize navigate
+
     const [data, setData] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const [pagination, setPagination] = useState({
@@ -77,9 +80,22 @@ export default function PharmacyTable({ willaya, nom }) {
     const columns = useMemo(
         () => [
             {
+                header: 'ID',
+                accessorKey: '_id',
+            },{
                 header: 'Name',
                 accessorKey: 'nom',
-                Cell: ({ row }) => `${row.original.nom} ${row.original.prenom}`,
+                        // Make the "Name" cell clickable
+                        Cell: ({ row }) => (
+                          <Button
+                            onClick={() => navigate(`/ProfileAll/${row.original._id}`)}
+                            color="primary"
+                            variant="text"
+                            style={{ textTransform: 'none', padding: 0 }}
+                          >
+                            {`${row.original.nom} ${row.original.prenom}`}
+                          </Button>
+                        ),
             },
             {
                 header: 'Status',

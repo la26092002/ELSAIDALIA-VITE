@@ -153,9 +153,7 @@ const Principle = () => {
         </section>
 
         <section className="why-choose" sx={{ justifyContent: 'center' }}>
-          <Typography variant="h4" component="h2" sx={{ textAlign: 'center', mt: 4 }}>
-            Pourquoi choisir ELSAIDALIYA ?
-          </Typography>
+          
           <Grid container justifyContent="center" spacing={4} sx={{ mt: 2, px: { xs: 2, sm: 4, md: 8 } }}>
             <Grid item xs={12} sm={6} md={4}>
               <Box sx={{ textAlign: 'center' }}>

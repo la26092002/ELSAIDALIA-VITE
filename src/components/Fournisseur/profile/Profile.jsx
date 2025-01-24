@@ -1,3 +1,21 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Snackbar, Alert } from '@mui/material';
 import UpdateUserDialog from './UpdateUserDialog';
@@ -12,20 +30,22 @@ const Profile = () => {
     email: '',
     willaya: '',
     category: '',
-    dataPdf: '',  // This field now stores the image file name or URL
+    dataPdf: '',  // Existing Image Field
+    logo: '',     // New Logo Field
+    nomSociete: '', // New Company Name Field
   });
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(false);  
-  const [changes, setChanges] = useState(false);  
-  const [snackbarOpen, setSnackbarOpen] = useState(false);  
-  const [snackbarMessage, setSnackbarMessage] = useState('');  
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');  
+  const [loading, setLoading] = useState(false);
+  const [changes, setChanges] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const actorPharmId = localStorage.getItem('actorFournisseur');
-        const response = await fetch(URL + '/api/auth/Data/' + actorPharmId);
+        const response = await fetch(`${URL}/api/auth/Data/${actorPharmId}`);
         const data = await response.json();
 
         if (data.success) {
@@ -62,8 +82,7 @@ const Profile = () => {
       formData.append('file', file);
 
       try {
-        const actorPharmId = localStorage.getItem('actorFournisseur');
-        // Use the new update-image endpoint
+        const actorPharmId = localStorage.getItem('actorPharmacien');
         const response = await fetch(`${URL}/api/auth/update-image/${actorPharmId}`, {
           method: 'PUT',
           headers: {
@@ -75,10 +94,9 @@ const Profile = () => {
         const data = await response.json();
 
         if (response.ok) {
-          // Update the user data with the new image file name returned from the server
           setUser((prevState) => ({
             ...prevState,
-            dataPdf: data.dataPdf,  
+            dataPdf: data.dataPdf,
           }));
           setChanges(!changes);
           setSnackbarMessage('Image mise à jour avec succès!');
@@ -99,10 +117,63 @@ const Profile = () => {
     }
   };
 
+  // New Handler for Logo Change
+  const handleLogoChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const actorPharmId = localStorage.getItem('actorPharmacien');
+        const response = await fetch(`${URL}/api/auth/update-logo/${actorPharmId}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          },
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setUser((prevState) => ({
+            ...prevState,
+            logo: data.logo,
+          }));
+          setChanges(!changes);
+          setSnackbarMessage('Logo mis à jour avec succès!');
+          setSnackbarSeverity('success');
+        } else {
+          console.error('Error updating logo:', data.error);
+          setSnackbarMessage("Erreur lors de la mise à jour du logo.");
+          setSnackbarSeverity('error');
+        }
+      } catch (error) {
+        console.error('Error during logo upload:', error);
+        setSnackbarMessage("Erreur lors de l'upload du logo.");
+        setSnackbarSeverity('error');
+      } finally {
+        setLoading(false);
+        setSnackbarOpen(true);
+      }
+    }
+  };
+
   const handleImageDownload = () => {
     const link = document.createElement('a');
     link.href = `${URL}/api/auth/download?file=${user.dataPdf}`;
-    link.download = 'user_profile_image'; 
+    link.download = 'registre_commerce_image';
+    link.click();
+  };
+
+
+  const handleLogoDownload = () => {
+    const link = document.createElement('a');
+    link.href = `${URL}/api/auth/downloadlogos?file=${user.logo}`; // Corrected to use user.logo
+    link.download = 'logo'; // Optional: Specify a default download name
     link.click();
   };
 
@@ -184,6 +255,14 @@ const Profile = () => {
               </Typography>
               <Typography variant="body1">{user.willaya}</Typography>
             </Grid>
+
+            {/* New Field: Nom de la Société */}
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Nom de la Société:
+              </Typography>
+              <Typography variant="body1">{user.nomSociete}</Typography>
+            </Grid>
           </Grid>
 
           <Button
@@ -201,7 +280,7 @@ const Profile = () => {
           variant="h6"
           sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
         >
-          Image du profil
+          Image du registre de commerce
         </Typography>
 
         <Box
@@ -221,6 +300,7 @@ const Profile = () => {
         >
           {user.dataPdf ? (
             <>
+              
               <Typography variant="body1" sx={{ marginBottom: 2 }}>
                 Vous avez une image du registre de commerce associée à votre profil.
               </Typography>
@@ -239,7 +319,7 @@ const Profile = () => {
             </>
           ) : (
             <Typography variant="body1" sx={{ marginBottom: 2 }}>
-              Aucune image du registre de commerce disponible pour votre profil.
+              Aucune image disponible pour votre profil.
             </Typography>
           )}
 
@@ -259,6 +339,75 @@ const Profile = () => {
               accept="image/*"
               hidden
               onChange={handleImageChange}
+            />
+          </Button>
+        </Box>
+
+        {/* New Section: Logo Display and Modify */}
+        <Typography
+          variant="h6"
+          sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
+        >
+          Logo de la Société
+        </Typography>
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: '800px',
+            marginTop: 2,
+            padding: 2,
+            border: '1px solid #ddd',
+            borderRadius: 2,
+            boxShadow: 3,
+          }}
+        >
+          
+          {user.logo ? (
+            <>
+              
+              <Typography variant="body1" sx={{ marginBottom: 2 }}>
+                Vous avez un logo associé à votre profil.
+              </Typography>
+              <Button
+                variant="contained"
+                sx={{
+                  marginBottom: 2,
+                  width: '200px',
+                  backgroundColor: '#D32F2F',
+                  '&:hover': { backgroundColor: '#C2185B' },
+                }}
+                onClick={handleLogoDownload}
+              >
+                Télécharger le logo
+              </Button>
+            </>
+          ) : (
+            <Typography variant="body1" sx={{ marginBottom: 2 }}>
+              Aucun logo disponible pour votre profil.
+            </Typography>
+          )}
+
+          <Button
+            variant="outlined"
+            color="success"
+            component="label"
+            sx={{
+              marginTop: 2,
+              width: '200px',
+            }}
+            disabled={loading}
+          >
+            {loading ? 'Téléchargement en cours...' : "Modifier le logo"}
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={handleLogoChange}
             />
           </Button>
         </Box>

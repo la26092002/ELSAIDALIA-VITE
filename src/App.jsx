@@ -28,6 +28,7 @@ import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 import Profile from "./components/Fournisseur/profile/Profile";
 import ProfilePharm from "./components/Pharmacien/profile/ProfilePharm";
 import ProduitCotaPharmcien from "./components/Pharmacien/produitCota/ProduitCotaPharmcien";
+import ProfileAll from "./components/Home/Profile/ProfileAll";
 
 
 
@@ -140,6 +141,7 @@ export const appRouter = createBrowserRouter(
     { path: "/register", element: <Register /> },
     { path: "/loginAdmin", element: <Login /> },
     { path: "/fourniseurdetail", element: <FournisurDetail /> },
+    { path: "/ProfileAll/:actorPharmId", element: <ProfileAll /> },
     
     { path: "*", element: <Error /> },
   ]

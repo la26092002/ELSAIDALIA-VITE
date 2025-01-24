@@ -137,7 +137,7 @@ export default function ProductCotaTable() {
         onPaginationChange: setPagination,
         rowCount,
         state: { pagination },
-        enableEditing: true,
+        enableEditing: false,
         editDisplayMode: 'modal',
         onEditingRowSave: handleEditingRowSave,
         onEditingRowCancel: handleEditingRowCancel,
@@ -146,21 +146,8 @@ export default function ProductCotaTable() {
         enableGrouping: true,
         enableColumnPinning: true,
         enableFacetedValues: true,
-        enableRowActions: true,
-        renderRowActionMenuItems: ({ row, closeMenu }) => [
-            <MenuItem
-                key="delete"
-                onClick={() => {
-                    closeMenu();
-                    handleDelete(row.original._id);
-                }}
-            >
-                <ListItemIcon>
-                    <DeleteIcon />
-                </ListItemIcon>
-                {row.original.delete ? 'Restore' : 'Delete'}
-            </MenuItem>,
-        ],
+        enableRowActions: false,
+        
     });
 
     return (

@@ -75,7 +75,7 @@ const Register = () => {
     const newErrors = {};
 
     if (!nom) newErrors.nom = 'Le nom est requis';
-    if (!prenom) newErrors.prenom = 'Le prénom est requis';
+    // if (!prenom) newErrors.prenom = 'Le prénom est requis';
     if (!role) newErrors.role = 'Le rôle est requis';
     if (!telephone) newErrors.telephone = 'Le numéro de téléphone est requis';
     if (!email) {
@@ -116,6 +116,7 @@ const Register = () => {
     formData.append("password", password);
 
     try {
+      console.log(formData)
       const response = await fetch(URL + "/api/auth/register", {
         method: "POST",
         body: formData,
@@ -219,7 +220,7 @@ const Register = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label="Nom"
+                label="pharmacie/Fournisseur"
                 variant="outlined"
                 value={nom}
                 onChange={(e) => setNom(e.target.value)}
@@ -227,18 +228,8 @@ const Register = () => {
                 helperText={errors.nom}
               />
             </Grid>
+            
             <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Prénom"
-                variant="outlined"
-                value={prenom}
-                onChange={(e) => setPrenom(e.target.value)}
-                error={!!errors.prenom}
-                helperText={errors.prenom}
-              />
-            </Grid>
-            <Grid item xs={12}>
               <FormControl fullWidth error={!!errors.role}>
                 <InputLabel>Rôle</InputLabel>
                 <Select value={role} onChange={(e) => setRole(e.target.value)} label="Rôle">

@@ -55,8 +55,8 @@ export default function MenuAppBar() {
       <Toolbar />
       <List>
         {[
-          { text: 'Home', path: '/fournisseur', icon: <HomeIcon /> },
-          { text: 'Produit', path: '/fournisseur/produit', icon: <ProductIcon /> },
+          { text: 'Acceuil', path: '/fournisseur', icon: <HomeIcon /> },
+          { text: 'Listings', path: '/fournisseur/produit', icon: <ProductIcon /> },
           { text: 'Offre', path: '/fournisseur/produitCota', icon: <OfferIcon /> },
         ].map((item, index) => (
           <ListItemButton key={item.text} component={Link} to={item.path}>

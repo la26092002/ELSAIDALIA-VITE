@@ -5,23 +5,21 @@ import {
   Button,
   Grid,
   TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
+  CssBaseline,
+  Divider,
+  IconButton,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import { URL } from '../../constants/Constants';
 import MapComponent from './MapComponent';
 
@@ -58,7 +56,7 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch(`${URL}/api/contact`, {
         method: 'POST',
@@ -67,7 +65,7 @@ const Contact = () => {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log('Success:', data);
@@ -83,7 +81,6 @@ const Contact = () => {
       alert('Une erreur réseau s\'est produite. Veuillez vérifier votre connexion.');
     }
   };
-  
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -165,85 +162,126 @@ const Contact = () => {
       <Box component="main">
         <Toolbar />
         <main>
-          {/* Contact Form */}
-          <Box
-            sx={{
-              backgroundColor: '#fff',
-              padding: '20px',
-              borderRadius: '10px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              marginBottom: '20px',
-            }}
-          >
-            <Typography variant="h4" sx={{ color: '#00796b', fontWeight: 'bold', mb: 2 }}>
-              Contactez-Nous
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Nom"
-                    name="name"
-                    variant="outlined"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    name="email"
-                    type='email'
-                    variant="outlined"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Message"
-                    name="message"
-                    variant="outlined"
-                    multiline
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ backgroundColor: '#00796b', color: '#fff' }}
-                  >
-                    Envoyer
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </Box>
+          {/* Main Content Grid */}
+          <Grid container spacing={4} sx={{ px: 4, py: 4 }}>
+            {/* Left Side: Contact Information */}
+            <Grid item xs={12} md={6}>
+              <Box sx={{ textAlign: 'left', mb: 4 }}>
+                <Typography variant="h4" sx={{ color: '#00796b', fontWeight: 'bold', mb: 2 }}>
+                  Nous Contacter
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  Pour toute question ou demande, n'hésitez pas à nous contacter via les informations ci-dessous.
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h6" sx={{ color: '#00796b', mb: 1 }}>
+                    Suivez-nous sur les réseaux sociaux :
+                  </Typography>
+                  <Box>
+                    <IconButton
+                      aria-label="Facebook"
+                      href="https://www.facebook.com/share/15YtywS4Kp/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FacebookIcon sx={{ color: '#3b5998', fontSize: '2rem' }} />
+                    </IconButton>
+                    <IconButton
+                      aria-label="Instagram"
+                      href="https://www.instagram.com/el_saidaliya?igsh=M2w3dHRlNnU3ZmQz"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <InstagramIcon sx={{ color: '#E1306C', fontSize: '2rem' }} />
+                    </IconButton>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
 
-          {/* GPS Section */}
-          <Box sx={{ textAlign: 'center', mt: 4 }}>
-            <Typography variant="h6" sx={{ color: '#00796b', mb: 2 }}>
-              Nos Coordonnées GPS
-            </Typography>
-            <MapComponent/>
-            
-          </Box>
+            {/* Right Side: Contact Form */}
+            <Grid item xs={12} md={6}>
+              <Box
+                sx={{
+                  backgroundColor: '#fff',
+                  padding: '20px',
+                  borderRadius: '10px',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                }}
+              >
+                <Typography variant="h4" sx={{ color: '#00796b', fontWeight: 'bold', mb: 2 }}>
+                  Formulaire de Contact
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        label="Nom"
+                        name="name"
+                        variant="outlined"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        label="Email"
+                        name="email"
+                        type="email"
+                        variant="outlined"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        label="Message"
+                        name="message"
+                        variant="outlined"
+                        multiline
+                        rows={4}
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{ backgroundColor: '#00796b', color: '#fff' }}
+                      >
+                        Envoyer
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </form>
+              </Box>
+            </Grid>
+
+            {/* MapComponent at the bottom */}
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%', height: '400px', mt: 4 }}>
+                <Typography variant="h6" sx={{ color: '#00796b', mb: 2 }}>
+                  Nos Coordonnées GPS :
+                </Typography>
+                <MapComponent />
+              </Box>
+            </Grid>
+          </Grid>
         </main>
 
-         <footer>
-                  <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
-                    <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-                  </Box>
-                </footer>
+        {/* Footer */}
+ <footer>
+          <Box sx={{ textAlign: 'center', py: 2, marginTop: '300px' }}>
+            <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+          </Box>
+        </footer>
       </Box>
     </div>
   );

@@ -76,7 +76,7 @@ const ProduitAdmin = () => {
             fontSize: { xs: "1.5rem", sm: "2rem" },
           }}
         >
-          Les Produits
+          Listings
         </Typography>
 
         {/* Form Fields */}

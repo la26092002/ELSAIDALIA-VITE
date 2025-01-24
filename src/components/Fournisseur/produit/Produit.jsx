@@ -99,7 +99,7 @@ const Produit = () => {
                 fontSize: { xs: "1.5rem", sm: "2rem" },
               }}
             >
-              Ajouter votre produit
+              Ajouter votre Listing
             </Typography>
 
             {/* Form Fields */}
@@ -134,7 +134,7 @@ const Produit = () => {
                   onClick={handleAddProduct}
                   sx={{ backgroundColor: '#00796b', color: '#fff', height: '55px', width: '30%' }}
                 >
-                  Ajouter le Produit
+                  Ajouter le Listing
                 </Button>
               </Grid>
 

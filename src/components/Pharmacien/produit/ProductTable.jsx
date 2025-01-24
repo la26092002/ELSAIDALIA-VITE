@@ -42,7 +42,7 @@ export default function ProductTable({ productName }) {
     const columns = useMemo(
         () => [
             {
-                header: 'Name',
+                header: 'Listing',
                 accessorKey: 'name',
             },
             {

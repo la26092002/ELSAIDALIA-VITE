@@ -1,6 +1,6 @@
 export const jsonPlaceholderData = "https://jsonplaceholder.typicode.com/users";
-export const URL = "https://pharmacy-ozpa.onrender.com";
-//export const URL = "http://localhost:5000";
+// export const URL = "https://pharmacy-ozpa.onrender.com";
+ export const URL = "http://localhost:5000";
 export const wilayas = [
     "Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar",
     "Blida", "Bouira", "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Alger",
