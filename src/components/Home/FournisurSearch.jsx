@@ -41,8 +41,8 @@ const OffreDetails = () => {
   ];
 
   return (
-    <Box sx={{ bgcolor: '#f5f5f5', py: 4, px: 2 }}>
-      <Typography variant="h4" align="center" gutterBottom sx={{ color: '#00796b', mb: 4 }}>
+    <Box sx={{ bgcolor: '#eff8fa', py: 4, px: 2 }}>
+      <Typography variant="h4" align="center" gutterBottom sx={{ color: '#33a7b5', mb: 4 }}>
         Nos Offres
       </Typography>
       <Grid container spacing={3}>
@@ -68,7 +68,7 @@ const OffreDetails = () => {
               <Typography
                 variant="h5"
                 sx={{
-                  color: '#00796b',
+                  color: '#33a7b5',
                   fontWeight: 'bold',
                   mb: '10px',
                   textAlign: 'center',
@@ -143,7 +143,7 @@ const FournisurSearch = () => {
   return (
     <Box sx={{ bgcolor: '#f5f5f5' }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
+      <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -194,17 +194,11 @@ const FournisurSearch = () => {
       <Box component="main">
         <Toolbar />
         <OffreDetails />
-        <footer>
-          <Box
-            sx={{
-              textAlign: 'center',
-              py: 2,
-              mt: 4,
-            }}
-          >
-            <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-          </Box>
-        </footer>
+       <footer>
+               <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
+                 <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+               </Box>
+             </footer>
       </Box>
     </Box>
   );

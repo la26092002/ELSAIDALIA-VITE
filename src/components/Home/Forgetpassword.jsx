@@ -77,9 +77,9 @@ const Forgetpassword = () => {
 
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', backgroundColor: '#eff8fa' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
+        <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -95,7 +95,16 @@ const Forgetpassword = () => {
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
               {navItems.map((item) => (
-                <Button key={item.text} sx={{ color: '#fff', fontSize: '17px', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)' }} onClick={() => navigate(item.link)}>
+                <Button
+                  key={item.text}
+                  sx={{
+                    color: '#fff',
+                    fontSize: '17px',
+                    fontWeight: 'bold',
+                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+                  }}
+                  onClick={() => navigate(item.link)}
+                >
                   {item.text}
                 </Button>
               ))}
@@ -126,7 +135,7 @@ const Forgetpassword = () => {
             mx: 'auto',
             mt: 15,
             p: 5,
-            backgroundColor: '#f7f7f7',
+            backgroundColor: '#fff',
             borderRadius: '12px',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             textAlign: 'center',
@@ -142,13 +151,13 @@ const Forgetpassword = () => {
             mx: 'auto',
             mt: 15,
             p: 5,
-            backgroundColor: '#f7f7f7',
+            backgroundColor: '#fff',
             borderRadius: '12px',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             textAlign: 'center',
           }}
         >
-          <Typography variant="h4" sx={{ mb: 4, color: '#00796b', fontWeight: 'bold' }}>
+          <Typography variant="h4" sx={{ mb: 4, color: '#33a7b5', fontWeight: 'bold' }}>
             Mot de passe oublié
           </Typography>
           {error && (
@@ -173,12 +182,13 @@ const Forgetpassword = () => {
                 fullWidth
                 variant="contained"
                 sx={{
-                  backgroundColor: '#00796b',
+                  backgroundColor: '#3cc35a',
                   color: '#fff',
                   fontSize: '1.1rem',
                   padding: '10px',
                   fontWeight: 'bold',
-                  boxShadow: '0px 4px 10px rgba(0, 121, 107, 0.4)',
+                  boxShadow: '0px 4px 10px rgba(60, 195, 90, 0.4)',
+                  '&:hover': { backgroundColor: '#33a7b5' },
                 }}
                 onClick={handleLogin}
               >
@@ -193,7 +203,7 @@ const Forgetpassword = () => {
                   component={RouterLink}
                   to="/register"
                   underline="hover"
-                  sx={{ color: '#00796b', fontWeight: 'bold' }}
+                  sx={{ color: '#33a7b5', fontWeight: 'bold' }}
                 >
                   Inscrivez-vous
                 </Link>

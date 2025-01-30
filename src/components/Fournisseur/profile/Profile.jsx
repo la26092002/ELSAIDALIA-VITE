@@ -5,23 +5,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Snackbar, Alert } from '@mui/material';
 import UpdateUserDialog from './UpdateUserDialog';
 import { URL } from '../../../constants/Constants';
 
-const Profile = () => {
+const ProfilePharm = () => {
   const [user, setUser] = useState({
     _id: '',
     nom: '',
@@ -44,7 +33,9 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        
         const actorPharmId = localStorage.getItem('actorFournisseur');
+        
         const response = await fetch(`${URL}/api/auth/Data/${actorPharmId}`);
         const data = await response.json();
 
@@ -437,4 +428,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfilePharm;

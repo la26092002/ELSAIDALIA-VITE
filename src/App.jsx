@@ -29,6 +29,7 @@ import Profile from "./components/Fournisseur/profile/Profile";
 import ProfilePharm from "./components/Pharmacien/profile/ProfilePharm";
 import ProduitCotaPharmcien from "./components/Pharmacien/produitCota/ProduitCotaPharmcien";
 import ProfileAll from "./components/Home/Profile/ProfileAll";
+import ConditionsEtPolitique from "./components/Home/ConditionsEtPolitique";
 
 
 
@@ -142,6 +143,11 @@ export const appRouter = createBrowserRouter(
     { path: "/loginAdmin", element: <Login /> },
     { path: "/fourniseurdetail", element: <FournisurDetail /> },
     { path: "/ProfileAll/:actorPharmId", element: <ProfileAll /> },
+
+    
+    { path: "/ConditionsEtPolitique", element: <ConditionsEtPolitique /> },
+
+    
     
     { path: "*", element: <Error /> },
   ]

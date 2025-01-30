@@ -1,123 +1,71 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Button,
-  Grid,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  CssBaseline,
-  Divider,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Button, Typography, Toolbar, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
 
-const FournisurDetail = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+const FournisseurDetail = () => {
   const [activeTab, setActiveTab] = useState('Products');
   const navigate = useNavigate();
-  const drawerWidth = 240;
 
   const navItems = [
-    { text: 'Accueil', link: '/' },
-    { text: 'À propos', link: '/about' },
-    { text: 'Fournisseurs', link: '/fournisseurs' },
-    { text: 'Contact', link: '/contact' },
-    { text: 'Se connecter', link: '/Seconnect' },
+    { text: 'Produits', link: '/produits' },
+    { text: 'Offres', link: '/offres' },
+    { text: 'Cotas', link: '/cotas' },
   ];
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        New Company Name
-      </Typography>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton onClick={() => navigate(item.link)} sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
-  const handleTabChange = (tabName) => {
-    setActiveTab(tabName);
-  };
+  const handleTabChange = (tab) => setActiveTab(tab);
 
   return (
-    <div>
-      <CssBaseline />
-      <Box sx={{ display: 'flex' }}>
-        <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              ELSAIDALIYA
-            </Typography>
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item.text}
-                  sx={{
-                    color: '#fff',
-                    fontSize: '17px',
-                    fontWeight: 'bold',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-                  }}
-                  onClick={() => navigate(item.link)}
-                >
-                  {item.text}
-                </Button>
-              ))}
-            </Box>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+    <Box>
+      {/* Navbar */}
+      <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            ELSAIDALIYA
+          </Typography>
+          <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
+            {navItems.map((item) => (
+              <Button
+                key={item.text}
+                sx={{
+                  color: '#fff',
+                  fontSize: '17px',
+                  fontWeight: 'bold',
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+                  '&:hover': { backgroundColor: '#3cc35a' },
+                }}
+                onClick={() => navigate(item.link)}
+              >
+                {item.text}
+              </Button>
+            ))}
+          </Box>
+        </Toolbar>
+      </AppBar>
 
-      <Box component="main" sx={{ p: 3 }}>
+      {/* Main Content */}
+      <Box component="main" sx={{ p: 3, bgcolor: '#eff8fa' }}>
         <Toolbar />
-        <Box sx={{ maxWidth: 900, mx: 'auto', bgcolor: 'white', p: 3, borderRadius: 2, boxShadow: 3 ,mt:7}}>
-          <Typography variant="h4" align="center" color="#00796b" gutterBottom sx={{p:1,fontWeight:'bold'}}>
+        <Box sx={{ maxWidth: 900, mx: 'auto', bgcolor: 'white', p: 3, borderRadius: 2, boxShadow: 3, mt: 7 }}>
+          <Typography
+            variant="h4"
+            align="center"
+            color="#33a7b5"
+            gutterBottom
+            sx={{ p: 1, fontWeight: 'bold' }}
+          >
             Nom du Fournisseur
           </Typography>
-          <Typography variant="body1" align="justify" color="textSecondary" sx={{p:2,fontSize:'18px'}} paragraph>
-            Ce fournisseur est reconnu pour la qualité exceptionnelle de ses produits. Avec des années d'expérience dans
-            l'industrie, il propose des solutions sur mesure adaptées aux besoins spécifiques des entreprises et des
-            particuliers.
+          <Typography variant="body1" align="justify" color="textSecondary" sx={{ p: 2, fontSize: '18px' }} paragraph>
+            Ce fournisseur est reconnu pour la qualité exceptionnelle de ses produits.
           </Typography>
 
           {/* Tabs Section */}
@@ -125,8 +73,8 @@ const FournisurDetail = () => {
             <Button
               onClick={() => handleTabChange('Products')}
               sx={{
-                color: activeTab === 'Products' ? '#00796B' : 'text.secondary',
-                borderBottom: activeTab === 'Products' ? '3px solid #00796B' : 'none',
+                color: activeTab === 'Products' ? '#33a7b5' : 'text.secondary',
+                borderBottom: activeTab === 'Products' ? '3px solid #33a7b5' : 'none',
               }}
             >
               Produits
@@ -134,8 +82,8 @@ const FournisurDetail = () => {
             <Button
               onClick={() => handleTabChange('Cotas')}
               sx={{
-                color: activeTab === 'Cotas' ? '#00796b' : 'text.secondary',
-                borderBottom: activeTab === 'Cotas' ? '3px solid #00796B' : 'none',
+                color: activeTab === 'Cotas' ? '#33a7b5' : 'text.secondary',
+                borderBottom: activeTab === 'Cotas' ? '3px solid #33a7b5' : 'none',
               }}
             >
               Cotas de Produits
@@ -143,8 +91,8 @@ const FournisurDetail = () => {
             <Button
               onClick={() => handleTabChange('Offers')}
               sx={{
-                color: activeTab === 'Offers' ? '#00796B' : 'text.secondary',
-                borderBottom: activeTab === 'Offers' ? '3px solid #00796B' : 'none',
+                color: activeTab === 'Offers' ? '#33a7b5' : 'text.secondary',
+                borderBottom: activeTab === 'Offers' ? '3px solid #33a7b5' : 'none',
               }}
             >
               Offres
@@ -155,7 +103,12 @@ const FournisurDetail = () => {
           <Box sx={{ mt: 3 }}>
             {activeTab === 'Products' && (
               <Box>
-                <Typography variant="h5" gutterBottom color="#00796b" sx={{fontSize:'25px',fontWeight:'bold',padding:'6px 6px'}}>
+                <Typography
+                  variant="h5"
+                  gutterBottom
+                  color="#33a7b5"
+                  sx={{ fontSize: '25px', fontWeight: 'bold', padding: '6px 6px' }}
+                >
                   Liste des Produits
                 </Typography>
                 <Typography variant="body2">Voici la liste des produits proposés par ce fournisseur.</Typography>
@@ -171,7 +124,12 @@ const FournisurDetail = () => {
             )}
             {activeTab === 'Cotas' && (
               <Box>
-                <Typography variant="h5" gutterBottom color="#00796b" sx={{fontSize:'25px',fontWeight:'bold',padding:'6px 6px'}}>
+                <Typography
+                  variant="h5"
+                  gutterBottom
+                  color="#33a7b5"
+                  sx={{ fontSize: '25px', fontWeight: 'bold', padding: '6px 6px' }}
+                >
                   Cotas de Produits
                 </Typography>
                 <Typography variant="body2">
@@ -188,7 +146,12 @@ const FournisurDetail = () => {
             )}
             {activeTab === 'Offers' && (
               <Box>
-                <Typography variant="h5" gutterBottom color="#00796b" sx={{fontSize:'25px',fontWeight:'bold',padding:'6px 6px'}}>
+                <Typography
+                  variant="h5"
+                  gutterBottom
+                  color="#33a7b5"
+                  sx={{ fontSize: '25px', fontWeight: 'bold', padding: '6px 6px' }}
+                >
                   Offres Spéciales
                 </Typography>
                 <Typography variant="body2">
@@ -204,17 +167,16 @@ const FournisurDetail = () => {
               </Box>
             )}
           </Box>
-        </Box>
 
-        {/* Footer */}
-        <footer>
-          <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
-            <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-          </Box>
-        </footer>
+          <footer>
+                  <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
+                    <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+                  </Box>
+                </footer>
+        </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 
-export default FournisurDetail;
+export default FournisseurDetail;

@@ -104,10 +104,10 @@ const Contact = () => {
   );
 
   return (
-    <div sx={{ bgcolor: '#f5f5f5' }}>
+    <div sx={{ bgcolor: '#eff8fa' }}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
+        <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -167,14 +167,14 @@ const Contact = () => {
             {/* Left Side: Contact Information */}
             <Grid item xs={12} md={6}>
               <Box sx={{ textAlign: 'left', mb: 4 }}>
-                <Typography variant="h4" sx={{ color: '#00796b', fontWeight: 'bold', mb: 2 }}>
+                <Typography variant="h4" sx={{ color: '#33a7b5', fontWeight: 'bold', mb: 2 }}>
                   Nous Contacter
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 2 }}>
                   Pour toute question ou demande, n'hésitez pas à nous contacter via les informations ci-dessous.
                 </Typography>
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="h6" sx={{ color: '#00796b', mb: 1 }}>
+                  <Typography variant="h6" sx={{ color: '#33a7b5', mb: 1 }}>
                     Suivez-nous sur les réseaux sociaux :
                   </Typography>
                   <Box>
@@ -203,13 +203,13 @@ const Contact = () => {
             <Grid item xs={12} md={6}>
               <Box
                 sx={{
-                  backgroundColor: '#fff',
+                  backgroundColor: '#f5f5f5', // Dialog background
                   padding: '20px',
                   borderRadius: '10px',
                   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                 }}
               >
-                <Typography variant="h4" sx={{ color: '#00796b', fontWeight: 'bold', mb: 2 }}>
+                <Typography variant="h4" sx={{ color: '#33a7b5', fontWeight: 'bold', mb: 2 }}>
                   Formulaire de Contact
                 </Typography>
                 <form onSubmit={handleSubmit}>
@@ -254,7 +254,7 @@ const Contact = () => {
                       <Button
                         type="submit"
                         variant="contained"
-                        sx={{ backgroundColor: '#00796b', color: '#fff' }}
+                        sx={{ backgroundColor: '#3cc35a', color: '#fff' }} // Button background
                       >
                         Envoyer
                       </Button>
@@ -267,7 +267,7 @@ const Contact = () => {
             {/* MapComponent at the bottom */}
             <Grid item xs={12}>
               <Box sx={{ width: '100%', height: '400px', mt: 4 }}>
-                <Typography variant="h6" sx={{ color: '#00796b', mb: 2 }}>
+                <Typography variant="h6" sx={{ color: '#33a7b5', mb: 2 }}>
                   Nos Coordonnées GPS :
                 </Typography>
                 <MapComponent />
@@ -277,11 +277,11 @@ const Contact = () => {
         </main>
 
         {/* Footer */}
- <footer>
-          <Box sx={{ textAlign: 'center', py: 2, marginTop: '300px' }}>
-            <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-          </Box>
-        </footer>
+        <footer >
+                <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5',marginTop: '220px' }}>
+                  <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+                </Box>
+              </footer>
       </Box>
     </div>
   );

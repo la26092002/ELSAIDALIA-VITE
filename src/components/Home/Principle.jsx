@@ -54,10 +54,10 @@ const Principle = () => {
   );
 
   return (
-    <div sx={{ bgcolor: '#e0f7fa' }}>
+    <div sx={{ bgcolor: '#eff8fa' }}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
+        <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -140,10 +140,10 @@ const Principle = () => {
               onClick={() => navigate('/about')}
               sx={{
                 mt: 3,
-                bgcolor: '#00796b',
+                bgcolor: '#3cc35a',
                 padding: '10px 20px',
                 '&:hover': {
-                  bgcolor: '#005f56',
+                  bgcolor: '#2a9a4b',
                 },
               }}
             >
@@ -153,7 +153,6 @@ const Principle = () => {
         </section>
 
         <section className="why-choose" sx={{ justifyContent: 'center' }}>
-          
           <Grid container justifyContent="center" spacing={4} sx={{ mt: 2, px: { xs: 2, sm: 4, md: 8 } }}>
             <Grid item xs={12} sm={6} md={4}>
               <Box sx={{ textAlign: 'center' }}>
@@ -179,7 +178,7 @@ const Principle = () => {
           <Grid container justifyContent="center" alignItems="center" spacing={4} sx={{ mt: 4, px: { xs: 2, sm: 6, md: 10 } }}>
             <Grid item xs={12} sm={6}>
               <Box sx={{ textAlign: 'center', p: 2, backgroundColor: '#f5f5f5', borderRadius: '12px' }}>
-                <Typography variant="h5" component="h3" sx={{ color: '#00796b', fontWeight: 'bold', mb: 2 }}>
+                <Typography variant="h5" component="h3" sx={{ color: '#33a7b5', fontWeight: 'bold', mb: 2 }}>
                   Maximisez votre visibilité!
                 </Typography>
                 <Typography variant="body1" sx={{ color: '#555', mb: 2 }}>
@@ -190,14 +189,14 @@ const Principle = () => {
 
             <Grid item xs={12} sm={6}>
               <Box sx={{ textAlign: 'center', p: 2, backgroundColor: '#f5f5f5', borderRadius: '12px' }}>
-                <Typography variant="h5" component="h3" sx={{ color: '#00796b', fontWeight: 'bold', mb: 2 }}>
+                <Typography variant="h5" component="h3" sx={{ color: '#33a7b5', fontWeight: 'bold', mb: 2 }}>
                   Explorez nos fournisseurs partenaires
                 </Typography>
                 <Typography variant="body1" sx={{ color: '#555' }}>
                   Localisez et contactez{' '}
                   <Button
                     variant="text"
-                    sx={{ color: '#00796b', fontWeight: 'bold' }}
+                    sx={{ color: '#33a7b5', fontWeight: 'bold' }}
                     onClick={() => navigate('/fournisseurs')}
                   >
                     les fournisseurs
@@ -209,7 +208,6 @@ const Principle = () => {
           </Grid>
         </section>
 
-        {/* Service Client Section */}
         <section className="service-client" style={{ textAlign: 'center', marginTop: '30px' }}>
           <Typography variant="h4" component="h2" sx={{ mb: 2 }}>Service Client</Typography>
           <Grid container spacing={4} justifyContent="center">
@@ -217,19 +215,16 @@ const Principle = () => {
               <Box sx={{ textAlign: 'center', boxShadow: 3, borderRadius: 2, p: 2, width: '60%', marginLeft: '15%' }}>
                 <Avatar src={`https://i.pravatar.cc/150?img=5`} alt="Service Client" sx={{ width: 90, height: 90, mx: 'auto' }} />
                 <Typography variant="h6" sx={{ mt: 3, fontSize: '25px' }}>Sonia</Typography>
-                
-                {/* Email Section */}
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                  <EmailIcon sx={{ color: '#00796b', mr: 1 }} /> {/* Email icon */}
-                  <Typography variant="body1" sx={{ fontSize: '18px', fontWeight: 'bold', color: '#00796b' }}>
+                  <EmailIcon sx={{ color: '#33a7b5', mr: 1 }} />
+                  <Typography variant="body1" sx={{ fontSize: '18px', fontWeight: 'bold', color: '#33a7b5' }}>
                     contact@elsaidaliya.com
                   </Typography>
                 </Box>
 
-                {/* Phone Section */}
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                  <PhoneIcon sx={{ color: '#00796b', mr: 1 }} /> {/* Phone icon */}
-                  <Typography variant="body1" sx={{ fontSize: '18px', fontWeight: 'bold', color: '#00796b' }}>
+                  <PhoneIcon sx={{ color: '#33a7b5', mr: 1 }} />
+                  <Typography variant="body1" sx={{ fontSize: '18px', fontWeight: 'bold', color: '#33a7b5' }}>
                     +213553720952
                   </Typography>
                 </Box>
@@ -238,12 +233,11 @@ const Principle = () => {
           </Grid>
         </section>
 
-        {/* Footer */}
         <footer>
-          <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
-            <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-          </Box>
-        </footer>
+                <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
+                  <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+                </Box>
+              </footer>
       </Box>
     </div>
   );

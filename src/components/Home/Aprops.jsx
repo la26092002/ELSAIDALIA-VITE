@@ -49,10 +49,10 @@ const Aprops = () => {
   );
 
   return (
-    <div sx={{ bgcolor: '#f5f5f5' }}>
+    <div sx={{ bgcolor: '#eff8fa' }}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
+        <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -101,7 +101,6 @@ const Aprops = () => {
 
       <Box component="main">
         <Toolbar />
-        (
         <main>
           <Box
             sx={{
@@ -117,7 +116,7 @@ const Aprops = () => {
               },
             }}
           >
-            <Typography variant="h1" sx={{ color: '#00796b', fontSize: '2rem', fontWeight: 'bold', mb: '15px' }}>
+            <Typography variant="h1" sx={{ color: '#33a7b5', fontSize: '2rem', fontWeight: 'bold', mb: '15px' }}>
               Qui Sommes-Nous?
             </Typography>
             <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
@@ -143,7 +142,7 @@ const Aprops = () => {
               },
             }}
           >
-            <Typography variant="h2" sx={{ color: '#00796b', fontSize: '1.5rem', fontWeight: 'bold', mb: '15px' }}>
+            <Typography variant="h2" sx={{ color: '#33a7b5', fontSize: '1.5rem', fontWeight: 'bold', mb: '15px' }}>
               Explorez, Comparez, Commandez
             </Typography>
             <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
@@ -169,7 +168,7 @@ const Aprops = () => {
               },
             }}
           >
-            <Typography variant="h2" sx={{ color: '#00796b', fontSize: '1.5rem', fontWeight: 'bold', mb: '15px' }}>
+            <Typography variant="h2" sx={{ color: '#33a7b5', fontSize: '1.5rem', fontWeight: 'bold', mb: '15px' }}>
               Créez Votre Compte et Mettez en Avant Vos Produits
             </Typography>
             <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
@@ -195,7 +194,7 @@ const Aprops = () => {
               },
             }}
           >
-            <Typography variant="h1" sx={{ color: '#00796b', fontSize: '2rem', fontWeight: 'bold', mb: '15px' }}>
+            <Typography variant="h1" sx={{ color: '#33a7b5', fontSize: '2rem', fontWeight: 'bold', mb: '15px' }}>
               Rejoignez-nous dès aujourd'hui!
             </Typography>
             <Typography variant="body1" sx={{ color: '#333', fontSize: '1rem', lineHeight: '1.6', mb: '10px' }}>
@@ -206,10 +205,10 @@ const Aprops = () => {
                 <Button
                   variant="contained"
                   sx={{
-                    backgroundColor: '#00796b',
+                    backgroundColor: '#3cc35a',
                     color: '#fff',
                     '&:hover': {
-                      backgroundColor: '#005b4f',
+                      backgroundColor: '#2e9e48',
                     },
                   }}
                 >
@@ -221,11 +220,11 @@ const Aprops = () => {
         </main>
 
         {/* Footer */}
-        <footer>
-          <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
-            <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-          </Box>
-        </footer>
+       <footer>
+                   <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
+                     <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+                   </Box>
+                 </footer>
       </Box>
     </div>
   );

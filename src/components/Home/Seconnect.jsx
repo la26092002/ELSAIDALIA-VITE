@@ -116,7 +116,7 @@ const Seconnect = () => {
     <>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
+        <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -132,7 +132,18 @@ const Seconnect = () => {
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
               {navItems.map((item) => (
-                <Button key={item.text} sx={{ color: '#fff', fontSize: '17px', fontWeight: 'bold', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)' }} onClick={() => navigate(item.link)}>
+                <Button
+                  key={item.text}
+                  sx={{
+                    color: '#fff',
+                    textAlign: 'center',
+                    padding: '14px 20px',
+                    fontSize: '17px',
+                    fontWeight: 'bold',
+                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+                  }}
+                  onClick={() => navigate(item.link)}
+                >
                   {item.text}
                 </Button>
               ))}
@@ -144,7 +155,9 @@ const Seconnect = () => {
             variant="temporary"
             open={mobileOpen}
             onClose={handleDrawerToggle}
-            ModalProps={{ keepMounted: true }}
+            ModalProps={{
+              keepMounted: true,
+            }}
             sx={{
               display: { xs: 'block', sm: 'none' },
               '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
@@ -163,7 +176,7 @@ const Seconnect = () => {
             mx: 'auto',
             mt: 15,
             p: 5,
-            backgroundColor: '#f7f7f7',
+            backgroundColor: '#eff8fa',
             borderRadius: '12px',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             textAlign: 'center',
@@ -179,13 +192,13 @@ const Seconnect = () => {
             mx: 'auto',
             mt: 15,
             p: 5,
-            backgroundColor: '#f7f7f7',
+            backgroundColor: '#eff8fa',
             borderRadius: '12px',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             textAlign: 'center',
           }}
         >
-          <Typography variant="h4" sx={{ mb: 4, color: '#00796b', fontWeight: 'bold' }}>
+          <Typography variant="h4" sx={{ mb: 4, color: '#33a7b5', fontWeight: 'bold' }}>
             Se Connecter
           </Typography>
           {error && (
@@ -226,7 +239,7 @@ const Seconnect = () => {
                 fullWidth
                 variant="contained"
                 sx={{
-                  backgroundColor: '#00796b',
+                  backgroundColor: '#3cc35a',
                   color: '#fff',
                   fontSize: '1.1rem',
                   padding: '10px',
@@ -244,7 +257,7 @@ const Seconnect = () => {
                   component={RouterLink}
                   to="/forgetpassword"
                   underline="hover"
-                  sx={{ color: '#00796b', fontWeight: 'bold' }}
+                  sx={{ color: '#33a7b5', fontWeight: 'bold' }}
                 >
                   Mot de passe oublié ?
                 </Link>
@@ -257,7 +270,7 @@ const Seconnect = () => {
                   component={RouterLink}
                   to="/register"
                   underline="hover"
-                  sx={{ color: '#00796b', fontWeight: 'bold' }}
+                  sx={{ color: '#33a7b5', fontWeight: 'bold' }}
                 >
                   Inscrivez-vous
                 </Link>
@@ -268,7 +281,7 @@ const Seconnect = () => {
       )}
 
       <footer>
-        <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
+        <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
           <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
         </Box>
       </footer>

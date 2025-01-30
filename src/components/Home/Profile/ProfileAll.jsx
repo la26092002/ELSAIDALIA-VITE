@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, Grid, Snackbar, Alert, AppBar, Toolbar, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RefreshIcon from '@mui/icons-material/Refresh';
-
 import { URL } from '../../../constants/Constants';
 
 const ProfileAll = () => {
@@ -85,11 +84,11 @@ const ProfileAll = () => {
         flexDirection: 'column',
         padding: '20px',
         minHeight: '100vh',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#eff8fa',
       }}
     >
       {/* Navigation Bar with Custom Color */}
-      <AppBar position="static" sx={{ marginBottom: 4, backgroundColor: '#00796b' }}>
+      <AppBar position="static" sx={{ marginBottom: 4, backgroundColor: '#33a7b5' }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -190,7 +189,7 @@ const ProfileAll = () => {
       {/* Image Section */}
       <Typography
         variant="h6"
-        sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
+        sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold', color: '#33a7b5' }}
       >
         Image du registre de commerce
       </Typography>
@@ -221,8 +220,8 @@ const ProfileAll = () => {
               sx={{
                 marginBottom: 2,
                 width: '200px',
-                backgroundColor: '#D32F2F',
-                '&:hover': { backgroundColor: '#C2185B' },
+                backgroundColor: '#3cc35a',
+                '&:hover': { backgroundColor: '#33a7b5' },
               }}
               onClick={handleImageDownload}
             >
@@ -239,7 +238,7 @@ const ProfileAll = () => {
       {/* Logo Section */}
       <Typography
         variant="h6"
-        sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
+        sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold', color: '#33a7b5' }}
       >
         Logo de la Société
       </Typography>
@@ -270,8 +269,8 @@ const ProfileAll = () => {
               sx={{
                 marginBottom: 2,
                 width: '200px',
-                backgroundColor: '#D32F2F',
-                '&:hover': { backgroundColor: '#C2185B' },
+                backgroundColor: '#3cc35a',
+                '&:hover': { backgroundColor: '#33a7b5' },
               }}
               onClick={handleLogoDownload}
             >
@@ -302,7 +301,7 @@ const ProfileAll = () => {
       </Snackbar>
 
       <footer>
-        <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
+        <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#eff8fa' }}>
           <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
         </Box>
       </footer>
