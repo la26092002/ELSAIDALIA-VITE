@@ -1,14 +1,9 @@
 
 
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Snackbar, Alert } from '@mui/material';
 import UpdateUserDialog from './UpdateUserDialog';
-import { URL } from '../../../constants/Constants';
+import { URL as API_URL } from '../../../constants/Constants';
 
 const ProfilePharm = () => {
   const [user, setUser] = useState({
@@ -30,13 +25,13 @@ const ProfilePharm = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
+    const [imageSrc, setImageSrc] = useState(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        
         const actorPharmId = localStorage.getItem('actorFournisseur');
-        
-        const response = await fetch(`${URL}/api/auth/Data/${actorPharmId}`);
+        const response = await fetch(`${API_URL}/api/auth/Data/${actorPharmId}`);
         const data = await response.json();
 
         if (data.success) {
@@ -73,8 +68,8 @@ const ProfilePharm = () => {
       formData.append('file', file);
 
       try {
-        const actorPharmId = localStorage.getItem('actorPharmacien');
-        const response = await fetch(`${URL}/api/auth/update-image/${actorPharmId}`, {
+        const actorPharmId = localStorage.getItem('actorFournisseur');
+        const response = await fetch(`${API_URL}/api/auth/update-image/${actorPharmId}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -108,7 +103,6 @@ const ProfilePharm = () => {
     }
   };
 
-  // New Handler for Logo Change
   const handleLogoChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -118,8 +112,8 @@ const ProfilePharm = () => {
       formData.append('file', file);
 
       try {
-        const actorPharmId = localStorage.getItem('actorPharmacien');
-        const response = await fetch(`${URL}/api/auth/update-logo/${actorPharmId}`, {
+        const actorPharmId = localStorage.getItem('actorFournisseur');
+        const response = await fetch(`${API_URL}/api/auth/update-logo/${actorPharmId}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -155,16 +149,15 @@ const ProfilePharm = () => {
 
   const handleImageDownload = () => {
     const link = document.createElement('a');
-    link.href = `${URL}/api/auth/download?file=${user.dataPdf}`;
+    link.href = `${API_URL}/api/auth/download?file=${user.dataPdf}`;
     link.download = 'registre_commerce_image';
     link.click();
   };
 
-
   const handleLogoDownload = () => {
     const link = document.createElement('a');
-    link.href = `${URL}/api/auth/downloadlogos?file=${user.logo}`; // Corrected to use user.logo
-    link.download = 'logo'; // Optional: Specify a default download name
+    link.href = `${API_URL}/api/auth/downloadlogos?file=${user.logo}`;
+    link.download = 'logo';
     link.click();
   };
 
@@ -172,16 +165,38 @@ const ProfilePharm = () => {
     setSnackbarOpen(false);
   };
 
+
+  useEffect(() => {
+      const fetchImage = async () => {
+        try {
+          const actorPharmId = localStorage.getItem('actorFournisseur');
+          const response = await fetch(`${API_URL}/api/auth/logo/${actorPharmId}`);
+          if (!response.ok) throw new Error("Failed to fetch image");
+  
+          const blob = await response.blob(); // Convert response to Blob
+          const imageUrl = globalThis.URL.createObjectURL(blob);
+  
+          setImageSrc(imageUrl);
+        } catch (error) {
+          console.error("Error fetching image:", error);
+        }
+      };
+  
+      fetchImage();
+  
+      return () => {
+        if (imageSrc) {
+          URL.revokeObjectURL(imageSrc); // Clean up object URL
+        }
+      };
+    }, []);
+
   return (
-    <div>
+    <div >
       <Box
         component="main"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: 1,
-          padding: '20px',
-          minHeight: 'calc(100vh - 64px)',
+       
         }}
       >
         <Typography
@@ -202,13 +217,13 @@ const ProfilePharm = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '100%',
-            maxWidth: '800px',
+            
             marginTop: 2,
-            padding: 3,
+            padding: 2,
             border: '1px solid #ddd',
             borderRadius: 2,
             boxShadow: 3,
+            backgroundColor: '#fff',
           }}
         >
           <Grid container spacing={3}>
@@ -247,7 +262,6 @@ const ProfilePharm = () => {
               <Typography variant="body1">{user.willaya}</Typography>
             </Grid>
 
-            {/* New Field: Nom de la Société */}
             <Grid item xs={12} sm={6} md={4}>
               <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                 Nom de la Société:
@@ -257,16 +271,14 @@ const ProfilePharm = () => {
           </Grid>
 
           <Button
-            variant="outlined"
-            color="success"
-            sx={{ marginTop: 3, width: '200px' }}
+            variant="contained"
+            sx={{ marginTop: 3, width: '200px', backgroundColor: '#3cc350', '&:hover': { backgroundColor: '#33a7b5' } }}
             onClick={handleModifyClick}
           >
             Modifier Les informations
           </Button>
         </Box>
 
-        {/* Image Display and Modify Section */}
         <Typography
           variant="h6"
           sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
@@ -280,18 +292,17 @@ const ProfilePharm = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '100%',
-            maxWidth: '800px',
+           
             marginTop: 2,
             padding: 2,
             border: '1px solid #ddd',
             borderRadius: 2,
             boxShadow: 3,
+            backgroundColor: '#fff',
           }}
         >
           {user.dataPdf ? (
             <>
-              
               <Typography variant="body1" sx={{ marginBottom: 2 }}>
                 Vous avez une image du registre de commerce associée à votre profil.
               </Typography>
@@ -315,12 +326,13 @@ const ProfilePharm = () => {
           )}
 
           <Button
-            variant="outlined"
-            color="success"
+            variant="contained"
             component="label"
             sx={{
               marginTop: 2,
               width: '200px',
+              backgroundColor: '#3cc350',
+              '&:hover': { backgroundColor: '#33a7b5' },
             }}
             disabled={loading}
           >
@@ -334,7 +346,6 @@ const ProfilePharm = () => {
           </Button>
         </Box>
 
-        {/* New Section: Logo Display and Modify */}
         <Typography
           variant="h6"
           sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
@@ -348,22 +359,21 @@ const ProfilePharm = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '100%',
-            maxWidth: '800px',
+           
             marginTop: 2,
             padding: 2,
             border: '1px solid #ddd',
             borderRadius: 2,
             boxShadow: 3,
+            backgroundColor: '#fff',
           }}
         >
-          
           {user.logo ? (
             <>
-              
               <Typography variant="body1" sx={{ marginBottom: 2 }}>
                 Vous avez un logo associé à votre profil.
               </Typography>
+              <img src={imageSrc} alt="Actor Logo" style={{ width: "150px", height: "150px" }} />
               <Button
                 variant="contained"
                 sx={{
@@ -384,12 +394,13 @@ const ProfilePharm = () => {
           )}
 
           <Button
-            variant="outlined"
-            color="success"
+            variant="contained"
             component="label"
             sx={{
               marginTop: 2,
               width: '200px',
+              backgroundColor: '#3cc350',
+              '&:hover': { backgroundColor: '#33a7b5' },
             }}
             disabled={loading}
           >
@@ -409,6 +420,7 @@ const ProfilePharm = () => {
         onClose={handleCloseDialog}
         user={user}
         onUpdate={handleUpdateUser}
+        sx={{ backgroundColor: '#f5f5f5' }}
       />
 
       <Snackbar

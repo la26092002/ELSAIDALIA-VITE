@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, Grid, Snackbar, Alert, AppBar, Toolbar, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { URL } from '../../../constants/Constants';
+
+import { URL as API_URL } from '../../../constants/Constants';
 
 const ProfileAll = () => {
   const { actorPharmId } = useParams();
@@ -27,10 +28,12 @@ const ProfileAll = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
+  const [imageSrc, setImageSrc] = useState(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`${URL}/api/auth/Data/${actorPharmId}`);
+        const response = await fetch(`${API_URL}/api/auth/Data/${actorPharmId}`);
         const data = await response.json();
 
         if (data.success) {
@@ -50,14 +53,14 @@ const ProfileAll = () => {
 
   const handleImageDownload = () => {
     const link = document.createElement('a');
-    link.href = `${URL}/api/auth/download?file=${user.dataPdf}`;
+    link.href = `${API_URL}/api/auth/download?file=${user.dataPdf}`;
     link.download = 'registre_commerce_image';
     link.click();
   };
 
   const handleLogoDownload = () => {
     const link = document.createElement('a');
-    link.href = `${URL}/api/auth/downloadlogos?file=${user.logo}`;
+    link.href = `${API_URL}/api/auth/downloadlogos?file=${user.logo}`;
     link.download = 'logo';
     link.click();
   };
@@ -74,6 +77,30 @@ const ProfileAll = () => {
     window.location.reload();
   };
 
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/auth/logo/679bf08a4b198f0bb237aff7`);
+        if (!response.ok) throw new Error("Failed to fetch image");
+
+        const blob = await response.blob(); // Convert response to Blob
+        const imageUrl = globalThis.URL.createObjectURL(blob);
+
+        setImageSrc(imageUrl);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+
+    fetchImage();
+
+    return () => {
+      if (imageSrc) {
+        URL.revokeObjectURL(imageSrc); // Clean up object URL
+      }
+    };
+  }, []);
+
   return (
     <Box
       component="main"
@@ -84,11 +111,11 @@ const ProfileAll = () => {
         flexDirection: 'column',
         padding: '20px',
         minHeight: '100vh',
-        backgroundColor: '#eff8fa',
+        backgroundColor: '#eff8fa', // Updated background color
       }}
     >
-      {/* Navigation Bar with Custom Color */}
-      <AppBar position="static" sx={{ marginBottom: 4, backgroundColor: '#33a7b5' }}>
+      {/* Navigation Bar with Updated Color */}
+      <AppBar position="static" sx={{ marginBottom: 4, backgroundColor: '#33a7b5' }}> {/* Updated navbar color */}
         <Toolbar>
           <IconButton
             edge="start"
@@ -189,7 +216,7 @@ const ProfileAll = () => {
       {/* Image Section */}
       <Typography
         variant="h6"
-        sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold', color: '#33a7b5' }}
+        sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
       >
         Image du registre de commerce
       </Typography>
@@ -213,19 +240,19 @@ const ProfileAll = () => {
         {user.dataPdf ? (
           <>
             <Typography variant="body1" sx={{ marginBottom: 2, textAlign: 'center' }}>
-              Vous avez une image du registre de commerce associée à votre profil.
+              Vous avez une image du registre de commerce associée à ce profil.
             </Typography>
             <Button
               variant="contained"
               sx={{
                 marginBottom: 2,
                 width: '200px',
-                backgroundColor: '#3cc35a',
-                '&:hover': { backgroundColor: '#33a7b5' },
+                backgroundColor: '#3cc35a', // Updated button color
+                '&:hover': { backgroundColor: '#2e9f4a' }, // Updated hover color
               }}
               onClick={handleImageDownload}
             >
-              Télécharger l'image
+              Télécharger le registre de commerce
             </Button>
           </>
         ) : (
@@ -238,7 +265,7 @@ const ProfileAll = () => {
       {/* Logo Section */}
       <Typography
         variant="h6"
-        sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold', color: '#33a7b5' }}
+        sx={{ marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}
       >
         Logo de la Société
       </Typography>
@@ -262,15 +289,17 @@ const ProfileAll = () => {
         {user.logo ? (
           <>
             <Typography variant="body1" sx={{ marginBottom: 2, textAlign: 'center' }}>
-              Vous avez un logo associé à votre profil.
+              Vous avez un logo associé à ce profil.
             </Typography>
+            <img src={imageSrc} alt="Actor Logo" style={{ width: "150px", height: "150px" }} />
+
             <Button
               variant="contained"
               sx={{
                 marginBottom: 2,
                 width: '200px',
-                backgroundColor: '#3cc35a',
-                '&:hover': { backgroundColor: '#33a7b5' },
+                backgroundColor: '#3cc35a', // Updated button color
+                '&:hover': { backgroundColor: '#2e9f4a' }, // Updated hover color
               }}
               onClick={handleLogoDownload}
             >
@@ -301,7 +330,7 @@ const ProfileAll = () => {
       </Snackbar>
 
       <footer>
-        <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#eff8fa' }}>
+        <Box sx={{ textAlign: 'center', py: 2, mt: 4 }}>
           <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
         </Box>
       </footer>

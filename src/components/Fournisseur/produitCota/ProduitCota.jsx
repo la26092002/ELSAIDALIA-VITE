@@ -71,10 +71,10 @@ const ProduitCota = () => {
   };
 
   return (
-    <div>
-      <div sx={{ bgcolor: '#f5f5f5' }}>
+    <div >
+      <div >
         <Box sx={{ minHeight: "100vh" }}>
-          <Toolbar />
+          <Toolbar  />
           <Box
             component="main"
             sx={{
@@ -127,7 +127,7 @@ const ProduitCota = () => {
                 <Button
                   variant="contained"
                   onClick={handleAddProduct}
-                  sx={{ backgroundColor: '#00796b', color: '#fff', height: '55px', width: '30%' }}
+                  sx={{ backgroundColor: '#3cc350', color: '#fff', height: '55px', width: '30%' }}
                 >
                   Ajouter l'offre
                 </Button>

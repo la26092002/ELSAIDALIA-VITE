@@ -16,6 +16,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CollapseItem from "./CollapseItem";
+import { URL } from "../constants/Constants";
 
 function Copyright(props) {
   return (
@@ -44,25 +45,47 @@ export default function Register() {
     event.preventDefault();
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const Phone = data.get("Phone");
-    const password = data.get("password");
-    const cpassword = data.get("cpassword");
 
-    if (
-      email.length >= 1 &&
-      Phone.length >= 1 &&
-      password.length >= 1 &&
-      cpassword.length >= 1 &&
-      password === cpassword
-    ) {
-      localStorage.setItem("token", "Hello World");
-      navigate("/");
-    } else {
-      setErr("Please Enter Correct Informations");
+    // Create a FormData object to send files and other fields
+    const formData = new FormData();
+    formData.append("nom", data.get("nom"));
+    formData.append("prenom", data.get("prenom"));
+    formData.append("telephone", data.get("Phone"));
+    formData.append("email", data.get("email"));
+    formData.append("willaya", data.get("willaya"));
+    formData.append("category", data.get("category"));
+    formData.append("password", data.get("password"));
+    formData.append("file", data.get("file")); // Append the file
+
+    // Validate password confirmation
+    if (data.get("password") !== data.get("cpassword")) {
+      setErr("Passwords do not match");
+      return;
+    }
+
+    try {
+      // Send the form data to the backend
+      const response = await fetch(URL+"/api/auth/register", {
+        method: "POST",
+        body: formData, // No need to set Content-Type header for FormData
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Registration successful
+        localStorage.setItem("token", result.token);
+        navigate("/"); // Navigate to the home page
+      } else {
+        // Handle errors from the backend
+        setErr(result.errors ? result.errors[0].msg : "Registration failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setErr("Server error");
     }
   };
 
@@ -89,20 +112,24 @@ export default function Register() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="nom"
+                label="Name"
+                name="nom"
+                autoComplete="name"
                 autoFocus
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                id="prenom"
+                label="Prenom"
+                name="prenom"
+                autoComplete="prenom"
               />
               <TextField
                 margin="normal"
@@ -112,6 +139,33 @@ export default function Register() {
                 label="Phone Number"
                 name="Phone"
                 autoComplete="phone"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="willaya"
+                label="Willaya"
+                name="willaya"
+                autoComplete="willaya"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="category"
+                label="Category"
+                name="category"
+                autoComplete="category"
               />
               <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
                 <InputLabel htmlFor="password">Password</InputLabel>
@@ -158,6 +212,13 @@ export default function Register() {
                   label="Confirm Password"
                 />
               </FormControl>
+              <input
+                type="file"
+                id="file"
+                name="file"
+                accept="image/*"
+                style={{ marginTop: 16, marginBottom: 16 }}
+              />
               <Button
                 type="submit"
                 fullWidth
@@ -176,5 +237,5 @@ export default function Register() {
         </Container>
       </ThemeProvider>
     </>
-  );
+  ); 
 }

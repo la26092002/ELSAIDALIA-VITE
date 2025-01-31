@@ -33,8 +33,8 @@ const ProduitPhar = () => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh" }}>
-      <Toolbar />
+    <Box sx={{ minHeight: "100vh",  }}> {/* Fond */}
+      <Toolbar  /> {/* Navbar */}
       <Box
         component="main"
         sx={{
@@ -76,7 +76,6 @@ const ProduitPhar = () => {
               fullWidth
               sx={{ mb: 2 }}
               aria-label="Ajouter un mot-clé"
-
             />
           </Grid>
           <Grid item xs={12} sm={4} md={2}>
@@ -84,7 +83,7 @@ const ProduitPhar = () => {
               variant="contained"
               onClick={handleAddKeyword}
               fullWidth
-              sx={{ height: "56px", backgroundColor: "#00796b" }} // Pour correspondre à la hauteur du TextField
+              sx={{ height: "56px", backgroundColor: "#3cc35c" }} // Button color
             >
               Ajouter
             </Button>
@@ -107,7 +106,7 @@ const ProduitPhar = () => {
         <Button
           variant="contained"
           onClick={handleSearch} // Appeler handleSearch lors du clic
-          sx={{ mb: 4, backgroundColor: "#00796b" }}
+          sx={{ mb: 4, backgroundColor: "#3cc35c" }} // Button color
         >
           Chercher
         </Button>

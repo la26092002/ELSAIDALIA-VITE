@@ -1,30 +1,29 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
-import ProductIcon from '@mui/icons-material/Store';
-import OfferIcon from '@mui/icons-material/AttachMoney';
-import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import PeopleIcon from "@mui/icons-material/People";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import { Link, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
   const navigate = useNavigate();
 
   const handleMenu = (event) => {
@@ -39,15 +38,15 @@ export default function MenuAppBar() {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleDeconnect = () => {
-    handleClose();
-    localStorage.removeItem("token");
-    navigate("/Seconnect");
-  };
-
   const handleProfile = () => {
     handleClose();
     navigate("/fournisseur/Profil");
+  };
+
+  const handleLogout = () => {
+    handleClose();
+    localStorage.removeItem("token");
+    navigate("/Seconnect");
   };
 
   const drawer = (
@@ -58,8 +57,8 @@ export default function MenuAppBar() {
           { text: 'Acceuil', path: '/fournisseur', icon: <HomeIcon /> },
           { text: 'Listings', path: '/fournisseur/produit', icon: <ProductIcon /> },
           { text: 'Offre', path: '/fournisseur/produitCota', icon: <OfferIcon /> },
-        ].map((item, index) => (
-          <ListItemButton key={item.text} component={Link} to={item.path}>
+        ].map((item) => (
+          <ListItemButton key={item.text} component={Link} to={item.path} onClick={() => setMobileOpen(false)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />
           </ListItemButton>
@@ -72,11 +71,18 @@ export default function MenuAppBar() {
     <>
       <CssBaseline />
       <Box sx={{ display: "flex" }}>
+        {/* Top AppBar */}
+        
+
+
+
+
+        
         <AppBar
           position="fixed"
           sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
-            backgroundColor: "#00796b",
+            backgroundColor: "#33a7b5",
           }}
         >
           <Toolbar>
@@ -89,8 +95,13 @@ export default function MenuAppBar() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
-              Fournisseur Dashboard
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1 }}
+            >
+              Pharmacien Dashboard
             </Typography>
             <div>
               <IconButton
@@ -106,16 +117,26 @@ export default function MenuAppBar() {
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                <MenuItem onClick={handleDeconnect}>Deconnexion</MenuItem>
+                <MenuItem onClick={handleLogout}>Deconnexion</MenuItem>
               </Menu>
             </div>
           </Toolbar>
         </AppBar>
 
+        {/* Sidebar Drawer */}
         <Drawer
           variant="permanent"
           sx={{
@@ -130,12 +151,13 @@ export default function MenuAppBar() {
           {drawer}
         </Drawer>
 
+        {/* Mobile Drawer */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true,
+            keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
             display: { xs: "block", sm: "none" },

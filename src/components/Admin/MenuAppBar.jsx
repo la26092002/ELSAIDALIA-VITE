@@ -73,11 +73,12 @@ export default function MenuAppBar() {
       <CssBaseline />
       <Box sx={{ display: "flex" }}>
         {/* Top AppBar */}
+         {/* Top AppBar */}
         <AppBar
           position="fixed"
           sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
-            backgroundColor: "#00796b",
+            backgroundColor: "#33a7b5", // Updated navbar color
           }}
         >
           <Toolbar>
@@ -123,8 +124,15 @@ export default function MenuAppBar() {
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                sx={{
+                  "& .MuiPaper-root": {
+                   
+                  },
+                }}
               >
-                <MenuItem onClick={handleLogout}>Deconnexion</MenuItem>
+                <MenuItem onClick={handleLogout} sx={{ color: "#3cc35a" }}> {/* Updated button color */}
+                  Deconnexion
+                </MenuItem>
               </Menu>
             </div>
           </Toolbar>
