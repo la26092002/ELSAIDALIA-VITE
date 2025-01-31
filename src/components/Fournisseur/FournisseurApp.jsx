@@ -1,5 +1,5 @@
 import React from 'react';
-import MenuAppBar from './MenuAppBar copy';
+import MenuAppBar from './MenuAppBar';
 import { Outlet, useOutlet } from 'react-router-dom';
 import { Box } from '@mui/material';
 

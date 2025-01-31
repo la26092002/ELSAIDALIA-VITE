@@ -15,8 +15,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
-import PeopleIcon from "@mui/icons-material/People";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
+
+import ProductIcon from "@mui/icons-material/Inventory"; // for Products
+import OfferIcon from "@mui/icons-material/LocalOffer"; // for Offer
+
 import { Link, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -101,7 +103,7 @@ export default function MenuAppBar() {
               component="div"
               sx={{ flexGrow: 1 }}
             >
-              Pharmacien Dashboard
+              Fournisseur Dashboard
             </Typography>
             <div>
               <IconButton

@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Snackbar, Alert } from '@mui/material';
 import UpdateUserDialog from './UpdateUserDialog';
@@ -68,7 +66,7 @@ const ProfilePharm = () => {
       formData.append('file', file);
 
       try {
-        const actorPharmId = localStorage.getItem('actorFournisseur');
+        const actorPharmId = localStorage.getItem('tokenFournisseur');
         const response = await fetch(`${API_URL}/api/auth/update-image/${actorPharmId}`, {
           method: 'PUT',
           headers: {
@@ -112,7 +110,7 @@ const ProfilePharm = () => {
       formData.append('file', file);
 
       try {
-        const actorPharmId = localStorage.getItem('actorFournisseur');
+        const actorPharmId = localStorage.getItem('tokenFournisseur');
         const response = await fetch(`${API_URL}/api/auth/update-logo/${actorPharmId}`, {
           method: 'PUT',
           headers: {
@@ -169,7 +167,7 @@ const ProfilePharm = () => {
   useEffect(() => {
       const fetchImage = async () => {
         try {
-          const actorPharmId = localStorage.getItem('actorFournisseur');
+          const actorPharmId = localStorage.getItem('tokenFournisseur');
           const response = await fetch(`${API_URL}/api/auth/logo/${actorPharmId}`);
           if (!response.ok) throw new Error("Failed to fetch image");
   
@@ -234,12 +232,7 @@ const ProfilePharm = () => {
               <Typography variant="body1">{user.nom}</Typography>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Prénom:
-              </Typography>
-              <Typography variant="body1">{user.prenom}</Typography>
-            </Grid>
+            
 
             <Grid item xs={12} sm={6} md={4}>
               <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
