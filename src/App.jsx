@@ -30,6 +30,8 @@ import ProfilePharm from "./components/Pharmacien/profile/ProfilePharm";
 import ProduitCotaPharmcien from "./components/Pharmacien/produitCota/ProduitCotaPharmcien";
 import ProfileAll from "./components/Home/Profile/ProfileAll";
 import ConditionsEtPolitique from "./components/Home/ConditionsEtPolitique";
+import OffrePanier from "./components/Pharmacien/panier/OffrePanier";
+import OffersCommander from "./components/Pharmacien/offersCommander/offersCommander";
 
 
 
@@ -44,31 +46,39 @@ export const appRouter = createBrowserRouter(
       path: "/admin",
       element: <AdminApp />,
       errorElement: <Error />,
-      children: [ (
+      children: [(
         <PrivateRouteAdmin>
           <Produit />
         </PrivateRouteAdmin>
       ),
-        { path: "fourniseur", element: (
+      {
+        path: "fourniseur", element: (
           <PrivateRouteAdmin><FournisseurAdmin />
           </PrivateRouteAdmin>
-        ) },
-        { path: "pharmacien", element: (
-        <PrivateRouteAdmin><PharmacyAdmin />
-        </PrivateRouteAdmin>
-      ) },
-        
-        { path: "produit", element: (
+        )
+      },
+      {
+        path: "pharmacien", element: (
+          <PrivateRouteAdmin><PharmacyAdmin />
+          </PrivateRouteAdmin>
+        )
+      },
+
+      {
+        path: "produit", element: (
           <PrivateRouteAdmin><ProduitAdmin />
           </PrivateRouteAdmin>
-        ) },
-        { path: "produitCota", element: (
-        <PrivateRouteAdmin><ProduitCotaAdmin />
-        </PrivateRouteAdmin>
-      ) },
+        )
+      },
+      {
+        path: "produitCota", element: (
+          <PrivateRouteAdmin><ProduitCotaAdmin />
+          </PrivateRouteAdmin>
+        )
+      },
       ],
     },
-    
+
     { path: "/loginAdmin", element: <Login /> },
     {
       path: "/pharmacien",
@@ -76,10 +86,13 @@ export const appRouter = createBrowserRouter(
       errorElement: <Error />,
       children: [
         { path: "produit", element: <ProduitPhar /> },
-        
+
         { path: "produitCota", element: <ProduitCotaPharmcien /> },
-        
+
         { path: "fourniseur", element: <Fourniseur /> },
+
+        { path: "panier", element: <OffrePanier /> },
+
         {
           path: "Profil",
           element: (
@@ -88,6 +101,15 @@ export const appRouter = createBrowserRouter(
             </PrivateRoute>
           ),
         },
+        {
+          path: "offers",
+          element: (
+            <PrivateRoute>
+              <OffersCommander />
+            </PrivateRoute>
+          ),
+        },
+        
       ],
     },
     {
@@ -127,7 +149,7 @@ export const appRouter = createBrowserRouter(
             </PrivateRoute>
           ),
         },
-        
+
       ],
     },
     { path: "/", element: <Principle /> },
@@ -137,18 +159,18 @@ export const appRouter = createBrowserRouter(
     { path: "/seconnect", element: <Seconnect /> },
     { path: "/forgetpassword", element: <Forgetpassword /> },
     { path: "/validate", element: <Valid /> },
-    
-    
+
+
     { path: "/register", element: <Register /> },
     { path: "/loginAdmin", element: <Login /> },
     { path: "/fourniseurdetail", element: <FournisurDetail /> },
     { path: "/ProfileAll/:actorPharmId", element: <ProfileAll /> },
 
-    
+
     { path: "/ConditionsEtPolitique", element: <ConditionsEtPolitique /> },
 
-    
-    
+
+
     { path: "*", element: <Error /> },
   ]
 );

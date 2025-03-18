@@ -17,6 +17,7 @@ import ph6 from './../static/PH6.jpg';
 import fourni from './../static/fourni.jpg';
 import EmailIcon from '@mui/icons-material/ContactMail';
 import PhoneIcon from '@mui/icons-material/ContactPhone';
+import img1 from "./../../assets/img1.png";
 
 const Principle = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -57,31 +58,32 @@ const Principle = () => {
     <div sx={{ bgcolor: '#eff8fa' }}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
+        <AppBar component="nav" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
           <Toolbar>
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
+              sx={{ mr: 2, display: { md: 'none' }, color: '#000' }} // Show menu icon on medium and smaller screens
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              ELSAIDALIYA
-            </Typography>
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
+            <div style={{ flexGrow: 1, height: 50 }}>
+              <img src={img1} alt="Logo" style={{ height: 50 }} />
+            </div>
+
+            <Box sx={{ display: { xs: 'none', md: 'block' }, mr: 6 }}> {/* Show nav items on medium and larger screens */}
               {navItems.map((item) => (
                 <Button
                   key={item.text}
                   sx={{
-                    color: '#fff',
+                    color: '#33a7b5',
                     textAlign: 'center',
-                    padding: '14px 20px',
-                    fontSize: '17px',
+                    padding: { xs: '8px 12px', sm: '10px 16px', md: '14px 20px' }, // Responsive padding
+                    fontSize: { xs: '14px', sm: '16px', md: '17px' }, // Responsive font size
                     fontWeight: 'bold',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+                    textShadow: '1px 1px 2px rgba(255, 255, 255, 0.5)',
                   }}
                   onClick={() => navigate(item.link)}
                 >
@@ -208,24 +210,59 @@ const Principle = () => {
           </Grid>
         </section>
 
-        <section className="service-client" style={{ textAlign: 'center', marginTop: '30px' }}>
-          <Typography variant="h4" component="h2" sx={{ mb: 2 }}>Service Client</Typography>
+        <section className="service-client" style={{ textAlign: 'center', marginTop: '60px', padding: '40px 20px' }}>
+          <Typography variant="h4" component="h2" sx={{ mb: 4, fontWeight: 'bold', color: '#33a7b5' }}>
+            Service Client
+          </Typography>
           <Grid container spacing={4} justifyContent="center">
-            <Grid item xs={12} sm={6} md={4}>
-              <Box sx={{ textAlign: 'center', boxShadow: 3, borderRadius: 2, p: 2, width: '60%', marginLeft: '15%' }}>
-                <Avatar src={`https://i.pravatar.cc/150?img=5`} alt="Service Client" sx={{ width: 90, height: 90, mx: 'auto' }} />
-                <Typography variant="h6" sx={{ mt: 3, fontSize: '25px' }}>Sonia</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                  <EmailIcon sx={{ color: '#33a7b5', mr: 1 }} />
-                  <Typography variant="body1" sx={{ fontSize: '18px', fontWeight: 'bold', color: '#33a7b5' }}>
+            <Grid item xs={12} sm={8} md={6} lg={4}>
+              <Box
+                sx={{
+                  textAlign: 'center',
+                  boxShadow: 3,
+                  borderRadius: '12px',
+                  p: 4,
+                  backgroundColor: '#fff',
+                  transition: 'transform 0.3s, box-shadow 0.3s',
+                  '&:hover': {
+                    transform: 'translateY(-5px)',
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                <Avatar
+                  src={`https://i.pravatar.cc/150?img=5`}
+                  alt="Service Client"
+                  sx={{
+                    width: 120,
+                    height: 120,
+                    mx: 'auto',
+                    border: '4px solid #33a7b5',
+                  }}
+                />
+                <Typography variant="h5" sx={{ mt: 3, fontWeight: 'bold', color: '#333' }}>
+                  Sonia
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 3 }}>
+                  <EmailIcon sx={{ color: '#33a7b5', mr: 1, fontSize: '28px' }} />
+                  <Typography
+                    variant="body1"
+                    sx={{ fontSize: '18px', fontWeight: 'bold', color: '#33a7b5', textDecoration: 'none' }}
+                    component="a"
+                    href="mailto:contact@elsaidaliya.com"
+                  >
                     contact@elsaidaliya.com
                   </Typography>
                 </Box>
-
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                  <PhoneIcon sx={{ color: '#33a7b5', mr: 1 }} />
-                  <Typography variant="body1" sx={{ fontSize: '18px', fontWeight: 'bold', color: '#33a7b5' }}>
-                    +213553720952
+                  <PhoneIcon sx={{ color: '#33a7b5', mr: 1, fontSize: '28px' }} />
+                  <Typography
+                    variant="body1"
+                    sx={{ fontSize: '18px', fontWeight: 'bold', color: '#33a7b5' }}
+                    component="a"
+                    href="tel:+213553720952"
+                  >
+                    +213 553 720 952
                   </Typography>
                 </Box>
               </Box>
@@ -234,10 +271,10 @@ const Principle = () => {
         </section>
 
         <footer>
-                <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
-                  <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-                </Box>
-              </footer>
+          <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
+            <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+          </Box>
+        </footer>
       </Box>
     </div>
   );

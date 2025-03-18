@@ -12,7 +12,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-
+import img1 from "./../../assets/img1.png";
 const ConditionsEtPolitique = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerWidth = 240;
@@ -52,40 +52,41 @@ const ConditionsEtPolitique = () => {
     <div style={{ backgroundColor: '#e0f7fa' }}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#00796b' }}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              ELSAIDALIYA
-            </Typography>
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item.text}
-                  sx={{
-                    color: '#fff',
-                    textAlign: 'center',
-                    padding: '14px 20px',
-                    fontSize: '17px',
-                    fontWeight: 'bold',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-                  }}
-                  onClick={() => navigate(item.link)}
-                >
-                  {item.text}
-                </Button>
-              ))}
-            </Box>
-          </Toolbar>
-        </AppBar>
+       <AppBar component="nav" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                 <Toolbar>
+                   <IconButton
+                     color="inherit"
+                     aria-label="open drawer"
+                     edge="start"
+                     onClick={handleDrawerToggle}
+                     sx={{ mr: 2, display: { md: 'none' }, color: '#000' }} // Show menu icon on medium and smaller screens
+                   >
+                     <MenuIcon />
+                   </IconButton>
+                   <div style={{ flexGrow: 1, height: 50 }}>
+                     <img src={img1} alt="Logo" style={{ height: 50 }} />
+                   </div>
+       
+                   <Box sx={{ display: { xs: 'none', md: 'block' }, mr: 6 }}> {/* Show nav items on medium and larger screens */}
+                     {navItems.map((item) => (
+                       <Button
+                         key={item.text}
+                         sx={{
+                           color: '#33a7b5',
+                           textAlign: 'center',
+                           padding: { xs: '8px 12px', sm: '10px 16px', md: '14px 20px' }, // Responsive padding
+                           fontSize: { xs: '14px', sm: '16px', md: '17px' }, // Responsive font size
+                           fontWeight: 'bold',
+                           textShadow: '1px 1px 2px rgba(255, 255, 255, 0.5)',
+                         }}
+                         onClick={() => navigate(item.link)}
+                       >
+                         {item.text}
+                       </Button>
+                     ))}
+                   </Box>
+                 </Toolbar>
+               </AppBar>
         <nav>
           <Drawer
             variant="temporary"
@@ -201,12 +202,12 @@ const ConditionsEtPolitique = () => {
             </p>
           </section>
         </div>
-         {/* Footer */}
-           <footer>
-                       <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
-                         <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
-                       </Box>
-                     </footer>
+        {/* Footer */}
+        <footer>
+          <Box sx={{ textAlign: 'center', py: 2, mt: 4, backgroundColor: '#f5f5f5' }}>
+            <Typography variant="body2">&copy; 2024 ELSAIDALIYA. Tous droits réservés.</Typography>
+          </Box>
+        </footer>
       </Box>
     </div>
   );

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { URL } from '../../constants/Constants';
+import img1 from "./../../assets/img1.png";
 
 const Valid = () => {
   const [number, setNumber] = useState('');
@@ -31,21 +32,23 @@ const Valid = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ mx: 2 }}>ELSAIDALIYA</Typography>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton onClick={() => navigate(item.link)} sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+    const drawer = (
+      <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+        <Typography variant="h6" sx={{ mx: 2 }}>
+          ELSAIDALIYA
+        </Typography>
+        <Divider />
+        <List>
+          {navItems.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton onClick={() => navigate(item.link)} sx={{ textAlign: 'center' }}>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    );
 
   const handleValidate = async () => {
     setSpinner(true);
@@ -95,29 +98,32 @@ const Valid = () => {
     <>
       <Box sx={{ display: 'flex', backgroundColor: '#eff8fa' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
+        <AppBar component="nav" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
           <Toolbar>
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
+              sx={{ mr: 2, display: { md: 'none' }, color: '#000' }} // Show menu icon on medium and smaller screens
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              ELSAIDALIYA
-            </Typography>
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
+            <div style={{ flexGrow: 1, height: 50 }}>
+              <img src={img1} alt="Logo" style={{ height: 50 }} />
+            </div>
+
+            <Box sx={{ display: { xs: 'none', md: 'block' }, mr: 6 }}> {/* Show nav items on medium and larger screens */}
               {navItems.map((item) => (
                 <Button
                   key={item.text}
                   sx={{
-                    color: '#fff',
-                    fontSize: '17px',
+                    color: '#33a7b5',
+                    textAlign: 'center',
+                    padding: { xs: '8px 12px', sm: '10px 16px', md: '14px 20px' }, // Responsive padding
+                    fontSize: { xs: '14px', sm: '16px', md: '17px' }, // Responsive font size
                     fontWeight: 'bold',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+                    textShadow: '1px 1px 2px rgba(255, 255, 255, 0.5)',
                   }}
                   onClick={() => navigate(item.link)}
                 >

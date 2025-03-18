@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { URL } from '../../constants/Constants';
-
+import img1 from "./../../assets/img1.png";
 const Forgetpassword = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -79,38 +79,41 @@ const Forgetpassword = () => {
     <>
       <Box sx={{ display: 'flex', backgroundColor: '#eff8fa' }}>
         <CssBaseline />
-        <AppBar component="nav" sx={{ bgcolor: '#33a7b5' }}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              ELSAIDALIYA
-            </Typography>
-            <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 6 }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item.text}
-                  sx={{
-                    color: '#fff',
-                    fontSize: '17px',
-                    fontWeight: 'bold',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-                  }}
-                  onClick={() => navigate(item.link)}
-                >
-                  {item.text}
-                </Button>
-              ))}
-            </Box>
-          </Toolbar>
-        </AppBar>
+        <AppBar component="nav" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                  <Toolbar>
+                    <IconButton
+                      color="inherit"
+                      aria-label="open drawer"
+                      edge="start"
+                      onClick={handleDrawerToggle}
+                      sx={{ mr: 2, display: { md: 'none' }, color: '#000' }} // Show menu icon on medium and smaller screens
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                    <div style={{ flexGrow: 1, height: 50 }}>
+                      <img src={img1} alt="Logo" style={{ height: 50 }} />
+                    </div>
+        
+                    <Box sx={{ display: { xs: 'none', md: 'block' }, mr: 6 }}> {/* Show nav items on medium and larger screens */}
+                      {navItems.map((item) => (
+                        <Button
+                          key={item.text}
+                          sx={{
+                            color: '#33a7b5',
+                            textAlign: 'center',
+                            padding: { xs: '8px 12px', sm: '10px 16px', md: '14px 20px' }, // Responsive padding
+                            fontSize: { xs: '14px', sm: '16px', md: '17px' }, // Responsive font size
+                            fontWeight: 'bold',
+                            textShadow: '1px 1px 2px rgba(255, 255, 255, 0.5)',
+                          }}
+                          onClick={() => navigate(item.link)}
+                        >
+                          {item.text}
+                        </Button>
+                      ))}
+                    </Box>
+                  </Toolbar>
+                </AppBar>
         <nav>
           <Drawer
             variant="temporary"

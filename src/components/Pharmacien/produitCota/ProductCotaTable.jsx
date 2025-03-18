@@ -3,9 +3,10 @@ import {
     MaterialReactTable,
     useMaterialReactTable,
 } from 'material-react-table';
-import { Box, MenuItem, ListItemIcon, CircularProgress } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, CircularProgress } from '@mui/material';
 import { URL } from '../../../constants/Constants';
+import { Button } from '@mui/material';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 export default function ProductCotaTable() {
     const [data, setData] = useState([]);
@@ -16,7 +17,7 @@ export default function ProductCotaTable() {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [refresh, setRefresh] = useState(false); // Added to trigger data refresh
+    const [refresh, setRefresh] = useState(false);
 
     // Fetch data from the API
     useEffect(() => {
@@ -42,12 +43,52 @@ export default function ProductCotaTable() {
         fetchData();
     }, [pagination, refresh]);
 
+    // Function to add all offer information to localStorage
+    const handleAddToLocalStorage = (offre) => {
+        console.log( offre);
+        // Retrieve the existing array from localStorage
+        const storedOffres = JSON.parse(localStorage.getItem('offres')) || [];
+        
+        // Check if the offer is already in the array (based on ID)
+        const isAlreadyAdded = storedOffres.some((item) => item._id === offre._id);
+        
+        if (!isAlreadyAdded) {
+            // Add the new offer to the array
+            storedOffres.push(offre);
+            
+            // Save the updated array back to localStorage
+            localStorage.setItem('offres', JSON.stringify(storedOffres));
+            
+            console.log(`Offre added to localStorage:`, offre);
+        } else {
+            console.log(`Offre ID ${offre._id} is already in localStorage.`);
+        }
+    };
+
     const columns = useMemo(
         () => [
             {
-                header: 'ID',
-                accessorKey: '_id',
+                header: 'Actions',
+                accessorKey: '_id', 
                 enableEditing: false,
+                Cell: ({ row }) => (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        startIcon={<AddShoppingCartIcon />}
+                        onClick={() => handleAddToLocalStorage(row.original)}
+                        sx={{
+                            textTransform: 'none', // Prevents uppercase text
+                            fontSize: '0.875rem', // Adjust font size
+                            fontWeight: 'bold',
+                            borderRadius: '8px', // Rounded corners
+                            padding: '6px 12px', // Padding
+                        }}
+                    >
+                        Ajouter au Panier
+                    </Button>
+                ),
             },
             {
                 header: 'Name',
@@ -88,48 +129,7 @@ export default function ProductCotaTable() {
         ],
         []
     );
-
-    const handleEditingRowSave = async ({ table, values }) => {
-        try {
-            await fetch(`${URL}/api/productCota/${values._id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: values.name,
-                }),
-            });
-            setRefresh(!refresh); // Trigger data refresh
-            table.setEditingRow(null); // Exit editing mode
-        } catch (error) {
-            console.error('Error saving row:', error);
-        }
-    };
-
-    const handleEditingRowCancel = () => {
-        console.log('Edit canceled');
-    };
-
-    const handleDelete = async (id) => {
-        try {
-            const response = await fetch(`${URL}/api/productCota/toggle-delete/${id}`, {
-                method: 'PUT',
-            });
-
-            if (!response.ok) {
-                console.error('Failed to toggle delete:', await response.json());
-                return;
-            }
-
-            const result = await response.json();
-            console.log('Delete toggled:', result);
-            setRefresh(!refresh); // Trigger data refresh
-        } catch (error) {
-            console.error('Error toggling delete:', error);
-        }
-    };
-
+    // Rest of the component remains unchanged...
     const table = useMaterialReactTable({
         columns,
         data,
@@ -139,15 +139,12 @@ export default function ProductCotaTable() {
         state: { pagination },
         enableEditing: false,
         editDisplayMode: 'modal',
-        onEditingRowSave: handleEditingRowSave,
-        onEditingRowCancel: handleEditingRowCancel,
         enableColumnFilterModes: true,
         enableColumnOrdering: true,
         enableGrouping: true,
         enableColumnPinning: true,
         enableFacetedValues: true,
         enableRowActions: false,
-        
     });
 
     return (

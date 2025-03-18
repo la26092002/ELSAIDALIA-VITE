@@ -17,6 +17,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; // Import de l'icône du panier
+import ArchiveIcon from '@mui/icons-material/Archive';
 import { Link, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -48,6 +50,14 @@ export default function MenuAppBar() {
     localStorage.removeItem("token");
     navigate("/Seconnect");
   };
+  
+  const handleOffers = () => {
+    navigate("/pharmacien/offers"); // Redirection vers la page des offres
+  };
+
+  const handleCart = () => {
+    navigate("/pharmacien/panier"); // Redirection vers la page du panier des offres
+  };
 
   const drawer = (
     <div>
@@ -57,7 +67,6 @@ export default function MenuAppBar() {
           { text: "Home", path: "/Pharmacien", icon: <HomeIcon /> },
           { text: "Listing", path: "/Pharmacien/produit", icon: <Inventory2Icon /> },
           { text: "Offre", path: "/pharmacien/produitCota", icon: <Inventory2Icon /> },
-          
           { text: "Fournisseur", path: "/Pharmacien/fourniseur", icon: <PeopleIcon /> },
         ].map((item) => (
           <ListItemButton key={item.text} component={Link} to={item.path} onClick={() => setMobileOpen(false)}>
@@ -74,12 +83,6 @@ export default function MenuAppBar() {
       <CssBaseline />
       <Box sx={{ display: "flex" }}>
         {/* Top AppBar */}
-        
-
-
-
-
-        
         <AppBar
           position="fixed"
           sx={{
@@ -106,6 +109,27 @@ export default function MenuAppBar() {
               Pharmacien Dashboard
             </Typography>
             <div>
+              {/* Bouton Panier des offres */}
+              <IconButton
+                size="large"
+                aria-label="Mes offres"
+                color="inherit"
+                onClick={handleOffers}
+                sx={{ mr: 2 }}
+              >
+                <ArchiveIcon />
+              </IconButton>
+
+              <IconButton
+                size="large"
+                aria-label="panier des offres"
+                color="inherit"
+                onClick={handleCart}
+                sx={{ mr: 2 }}
+              >
+                <ShoppingCartIcon />
+              </IconButton>
+              {/* Bouton Profil */}
               <IconButton
                 size="large"
                 aria-label="account of current user"

@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import BlockIcon from '@mui/icons-material/Block'; // For suspension
-
+import img1 from "./../../assets/img1.png";
 
 export default function FournisseurTable({ willaya, nom }) {
     const [data, setData] = useState([]);
