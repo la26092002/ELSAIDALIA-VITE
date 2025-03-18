@@ -31,7 +31,7 @@ import ProduitCotaPharmcien from "./components/Pharmacien/produitCota/ProduitCot
 import ProfileAll from "./components/Home/Profile/ProfileAll";
 import ConditionsEtPolitique from "./components/Home/ConditionsEtPolitique";
 import OffrePanier from "./components/Pharmacien/panier/OffrePanier";
-import OffersCommander from "./components/Pharmacien/offersCommander/offersCommander";
+import CommandOfferTable from "./components/Pharmacien/offersCommander/CommandOfferTable";
 
 
 
@@ -105,7 +105,7 @@ export const appRouter = createBrowserRouter(
           path: "offers",
           element: (
             <PrivateRoute>
-              <OffersCommander />
+              <CommandOfferTable />
             </PrivateRoute>
           ),
         },
